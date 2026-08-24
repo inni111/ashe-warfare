@@ -662,7 +662,7 @@ init(){
   try{this.AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return;}
   try{
     this.master=this.AC.createGain();
-    this.master.gain.value=SET.vol*0.6;
+    this.master.gain.value=SET.vol*0.45;
     const comp=this.AC.createDynamicsCompressor();
     comp.threshold.value=-18;comp.ratio.value=6;
     this.master.connect(comp);comp.connect(this.AC.destination);
@@ -673,7 +673,7 @@ init(){
     const wind=this.AC.createBufferSource();
     wind.buffer=this.noiseBuf;wind.loop=true;
     const wf=this.AC.createBiquadFilter();wf.type="lowpass";wf.frequency.value=220;
-    const wg=this.AC.createGain();wg.gain.value=0.05;
+    const wg=this.AC.createGain();wg.gain.value=0.03;
     const lfo=this.AC.createOscillator();lfo.frequency.value=0.07;
     const lg=this.AC.createGain();lg.gain.value=80;
     lfo.connect(lg);lg.connect(wf.frequency);
@@ -693,7 +693,7 @@ init(){
 },
 buildFx(){
   const n=1024,cv=new Float32Array(n);
-  for(let i=0;i<n;i++){const x=i/(n-1)*2-1;cv[i]=Math.tanh(2.1*x)/Math.tanh(2.1);}
+  for(let i=0;i<n;i++){const x=i/(n-1)*2-1;cv[i]=Math.tanh(1.3*x)/Math.tanh(1.3);}
   this.shaperIn=this.AC.createGain();this.shaperIn.gain.value=1;
   const ws=this.AC.createWaveShaper();ws.curve=cv;ws.oversample="2x";
   this.shaperOut=this.AC.createGain();this.shaperOut.gain.value=0.85;
@@ -769,15 +769,15 @@ shot(){
     src.connect(fl);fl.connect(e);e.connect(this.shaperIn);
     src.start(t);src.stop(t+dur+0.03);
   };
-  mkN(4000*r,0.8,0.55*v,rand(0.008,0.015),0.0005);
-  mkN(700*r,0.9,0.5*v,rand(0.06,0.09),0.001);
+  mkN(4000*r,0.8,0.36*v,rand(0.008,0.015),0.0005);
+  mkN(700*r,0.9,0.32*v,rand(0.06,0.09),0.001);
   const o=this.AC.createOscillator();o.type="sine";
   o.frequency.setValueAtTime(rand(88,104)*r,t);
   o.frequency.exponentialRampToValueAtTime(55*r,t+0.13);
-  const e=this.env(t,0.001,0.75*v,rand(0.10,0.14));
+  const e=this.env(t,0.001,0.48*v,rand(0.10,0.14));
   o.connect(e);e.connect(this.shaperIn);
   o.start(t);o.stop(t+0.17);
-  this.sendRev(this.shaperOut,0.25);
+  this.sendRev(this.shaperOut,0.18);
 },
 botShot(vol,pan,dist){
   const lp=lerp(8000,800,clamp(dist||0,0,60)/60);
@@ -800,8 +800,8 @@ clack(){this.pn({freq:1200,q:0.9,gain:0.14,dur:0.06});this.pt({type:"triangle",f
 surface(){this.pn({freq:3600,q:0.9,gain:0.06,dur:0.03});},
 step(sp){this.pn({type:"lowpass",freq:250+rand(120),q:0.5,gain:sp?0.10:0.06,dur:0.075,rate:rand(0.8,1.1)});},
 slide(){this.pn({type:"lowpass",freq:520,q:0.6,gain:0.24,dur:0.42,rate:0.7,rev:0.3});this.pn({type:"lowpass",freq:900,q:0.5,gain:0.11,dur:0.3,rate:0.5,rev:0.3});},
-hurt(){this.pt({type:"sawtooth",f0:170,f1:70,gain:0.32,dur:0.16});this.pn({type:"lowpass",freq:500,q:0.6,gain:0.26,dur:0.12});},
-heart(){this.pt({type:"sine",f0:58,f1:34,gain:0.5,dur:0.13});this.pt({type:"sine",f0:50,f1:30,gain:0.4,dur:0.11,when:0.16});},
+hurt(){this.pt({type:"sawtooth",f0:170,f1:70,gain:0.22,dur:0.16});this.pn({type:"lowpass",freq:500,q:0.6,gain:0.18,dur:0.12});},
+heart(){this.pt({type:"sine",f0:58,f1:34,gain:0.35,dur:0.13});this.pt({type:"sine",f0:50,f1:30,gain:0.28,dur:0.11,when:0.16});},
 botDie(pan){this.pt({type:"sawtooth",f0:130,f1:40,gain:0.22,dur:0.3,pan});},
 death(){this.pt({type:"sawtooth",f0:210,f1:42,gain:0.4,dur:1.3});this.pn({type:"lowpass",freq:280,q:0.5,gain:0.3,dur:1.1,rate:0.4});},
 killBlip(head){this.pt({type:"triangle",f0:head?1320:990,f1:head?1760:1240,gain:0.14,dur:0.09});},
@@ -829,11 +829,11 @@ build(){
   this.bus=this.AC.createGain();this.bus.gain.value=0;
   this.bus.connect(AudioSys.master);
   const drf=this.AC.createBiquadFilter();drf.type="lowpass";drf.frequency.value=150;drf.Q.value=0.7;
-  const og=this.AC.createGain();og.gain.value=0.16;
+  const og=this.AC.createGain();og.gain.value=0.09;
   drf.connect(og);og.connect(this.bus);
   [[55,"sawtooth",-3],[55.3,"sawtooth",3],[27.5,"sine",0]].forEach(pair=>{
     const o=this.AC.createOscillator();o.type=pair[1];o.frequency.value=pair[0];o.detune.value=pair[2];
-    const g=this.AC.createGain();g.gain.value=pair[0]<30?0.5:0.22;
+    const g=this.AC.createGain();g.gain.value=pair[0]<30?0.32:0.15;
     o.connect(g);g.connect(drf);o.start();
   });
   const lfo=this.AC.createOscillator();lfo.frequency.value=0.05;
@@ -841,18 +841,19 @@ build(){
   lfo.connect(lg);lg.connect(drf.frequency);lfo.start();
   const air=this.AC.createBufferSource();air.buffer=AudioSys.noiseBuf;air.loop=true;
   const af=this.AC.createBiquadFilter();af.type="highpass";af.frequency.value=6500;
-  const ag=this.AC.createGain();ag.gain.value=0.012;
+  const ag=this.AC.createGain();ag.gain.value=0.007;
   air.connect(af);af.connect(ag);ag.connect(this.bus);air.start();
   this.built=true;
 },
 applyVol(){
   if(!this.built||!this.bus||!AudioSys.AC)return;
-  this.bus.gain.setTargetAtTime(this.on?SET.musvol*0.9:0,this.AC.currentTime,this.on?0.4:0.45);
+  this.bus.gain.setTargetAtTime(this.on?SET.musvol*0.5:0,this.AC.currentTime,this.on?0.4:0.45);
 },
 start(){
   AudioSys.init();
   if(!AudioSys.AC)return;
   this.build();
+  if(!this.built)return;
   this.on=true;
   this.nextT=Math.max(this.nextT,AudioSys.AC.currentTime+0.06);
   this.applyVol();
@@ -863,7 +864,7 @@ stop(){
   this.applyVol();
 },
 schedule(){
-  if(!this.on||!AudioSys.AC)return;
+  if(!this.on||!AudioSys.AC||!this.bus)return;
   const AC=AudioSys.AC,bd=60/84;
   if(this.nextT<AC.currentTime)this.nextT=AC.currentTime+0.06;
   while(this.nextT<AC.currentTime+0.35){
@@ -873,7 +874,7 @@ schedule(){
     o.frequency.exponentialRampToValueAtTime(30,t+bd*0.85);
     const g=AC.createGain();
     g.gain.setValueAtTime(0.0001,t);
-    g.gain.linearRampToValueAtTime(b%4===0?0.38:0.26,t+0.006);
+    g.gain.linearRampToValueAtTime(b%4===0?0.18:0.12,t+0.006);
     g.gain.exponentialRampToValueAtTime(0.0001,t+bd*0.9);
     o.connect(g);g.connect(this.bus);
     o.start(t);o.stop(t+bd);
@@ -882,7 +883,7 @@ schedule(){
       const f=AC.createBiquadFilter();f.type="bandpass";f.frequency.value=1750;f.Q.value=1;
       const rg=AC.createGain();
       rg.gain.setValueAtTime(0.0001,t);
-      rg.gain.linearRampToValueAtTime(0.26,t+bd*3.6);
+      rg.gain.linearRampToValueAtTime(0.12,t+bd*3.6);
       rg.gain.exponentialRampToValueAtTime(0.0001,t+bd*4.1);
       src.connect(f);f.connect(rg);rg.connect(this.bus);
       src.start(t);src.stop(t+bd*4.2);
@@ -1910,7 +1911,7 @@ document.addEventListener("keydown",e=>{
   if(Game.mode==="menu")return;
   if(e.code===SET.bind.jump)Input.jumpQ=true;
   else if(e.code===SET.bind.crouch)Input.crouchPressed=true;
-  else if(e.code===SET.bind.reload){if(!player.dead)Weapon.startReload();}
+  else if(e.code===SET.bind.reload&&!player.dead){Weapon.startReload();}
   else if(e.code==="KeyR"&&player.dead){playerRespawn();Lock.request();}
 });
 document.addEventListener("keyup",e=>{Input.keys[e.code]=false;});
@@ -1997,6 +1998,10 @@ window.addEventListener("resize",()=>{
   renderer.setSize(innerWidth,innerHeight);
   HUD.arcResize();
 });
+function releasePointer(){try{if(document.pointerLockElement)document.exitPointerLock();}catch(e){}}
+window.addEventListener("beforeunload",releasePointer);
+window.addEventListener("pagehide",releasePointer);
+document.addEventListener("visibilitychange",()=>{if(document.hidden)releasePointer();});
 
 (function makeGrain(){
   const c=document.createElement("canvas");c.width=c.height=140;
