@@ -299,6 +299,7 @@ const damp=(a,b,l,dt)=>THREE.MathUtils.damp(a,b,l,dt);
 const sstep=(t,a,b)=>{const k=clamp((t-a)/(b-a),0,1);return k*k*(3-2*k);};
 const V3=THREE.Vector3;
 const _va=new V3(),_vb=new V3(),_vc=new V3(),_vd=new V3(),_ve=new V3(),_col=new THREE.Color();
+const rc=new THREE.Raycaster();rc.far=400;
 
 let errTO=0;
 function showErr(m){
@@ -1487,7 +1488,6 @@ function playerRespawn(){
 }
 
 const ammo={mag:MAG_SIZE,res:RES_START};
-const rc=new THREE.Raycaster();rc.far=400;
 let shootTargets=[];
 
 function makeSoldier(pal){
