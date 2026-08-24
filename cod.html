@@ -1874,7 +1874,7 @@ class Bot{
         if(this.stateT<=0){this.state="peek";this.stateT=rand(1.3,2.3);this.burstN=3+(rand(4)|0);this.cdT=0;}
       }else if(this.state==="peek"){
         moveTo=this.peekP;this.wantExpose=1;
-        if(this.expose>0.7)this.fireCycle({isPlayer:true});
+        if(this.expose>0.7)this.fireCycle({isPlayer:true},dt);
         this.stateT-=dt;
         if(this.stateT<=0){this.state="hide";this.stateT=rand(0.9,1.9);}
       }else{
@@ -1931,7 +1931,7 @@ class Bot{
         if(this.stateT<=0){this.state="peek";this.stateT=this.retreat?1.0:rand(1.3,2.3);this.burstN=3+(rand(4)|0);this.cdT=0;}
       }else{
         moveTo=this.peekP;this.wantExpose=1;
-        if(this.expose>0.7&&T>this.invuln)this.fireCycle(t);
+        if(this.expose>0.7&&T>this.invuln)this.fireCycle(t,dt);
         this.stateT-=dt;
         if(this.stateT<=0){this.state="hide";this.stateT=this.retreat?rand(2,2.8):rand(0.9,1.9);}
       }
@@ -1963,7 +1963,7 @@ class Bot{
     this.yaw+=da*Math.min(1,6*dt);
     this.moveToward(w.x,w.z,idleOnly?1.6:2.6,dt);
   }
-  fireCycle(t){
+  fireCycle(t,dt){
     this.cdT-=dt;
     if(this.cdT>0)return;
     if(this.burstN<=0){this.burstN=3+(rand(4)|0);this.cdT=rand(0.55,1.3);return;}
