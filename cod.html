@@ -1733,7 +1733,7 @@ class Bot{
     const hss=t.isPlayer?[0.35,player.eyeH*0.55,player.eyeH*0.95]:[0.45,1.05,1.5];
     for(const h of hss){
       const sy=t.isPlayer?player.pos.y+h:h;
-      _vb.set(t.pos.x,sy,t.pos.z);
+      _vb.set(t.isPlayer?player.pos.x:t.pos.x,sy,t.isPlayer?player.pos.z:t.pos.z);
       _ve.copy(_vb).sub(_va);
       const tp=_ve.dot(_vc);
       if(tp>0){
@@ -1874,7 +1874,7 @@ class Bot{
         if(this.stateT<=0){this.state="peek";this.stateT=rand(1.3,2.3);this.burstN=3+(rand(4)|0);this.cdT=0;}
       }else if(this.state==="peek"){
         moveTo=this.peekP;this.wantExpose=1;
-        if(this.expose>0.7)this.fireCycle({isPlayer:true},dt);
+        if(this.expose>0.7)this.fireCycle({isPlayer:true,pos:player.pos},dt);
         this.stateT-=dt;
         if(this.stateT<=0){this.state="hide";this.stateT=rand(0.9,1.9);}
       }else{
