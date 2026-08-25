@@ -2265,24 +2265,73 @@ nz(o){
   src.connect(f);f.connect(g);g.connect(this.bus);
   src.start(t);src.stop(t+o.d+0.05);
 },
+brass(t,f,d,g){
+  const AC=this.AC;
+  for(const det of[0,7]){
+    const o=AC.createOscillator();o.type="sawtooth";o.frequency.value=f;o.detune.value=det;
+    const fl=AC.createBiquadFilter();fl.type="lowpass";fl.Q.value=1.1;
+    fl.frequency.setValueAtTime(300,t);
+    fl.frequency.exponentialRampToValueAtTime(1400,t+0.07);
+    fl.frequency.exponentialRampToValueAtTime(720,t+d);
+    const gn=AC.createGain();
+    gn.gain.setValueAtTime(0.0001,t);
+    gn.gain.linearRampToValueAtTime(g,t+0.045);
+    gn.gain.setValueAtTime(g*0.85,t+d*0.72);
+    gn.gain.exponentialRampToValueAtTime(0.0001,t+d);
+    o.connect(fl);fl.connect(gn);gn.connect(this.bus);
+    o.start(t);o.stop(t+d+0.05);
+  }
+},
+taiko(t,g){
+  this.tone({t,f:74,f1:38,d:0.26,g});
+  this.nz({t,ft:"lowpass",f:320,q:0.6,g:g*0.45,d:0.05});
+},
+piano(t,f,g){
+  this.tone({t,f,d:2.4,g,a:0.004});
+  this.tone({t,f:f*2,d:1.1,g:g*0.3,a:0.004});
+  this.tone({t,f:f*3.003,d:0.5,g:g*0.09,a:0.004});
+},
 schedule(){
   if(!this.on||!AudioSys.AC||!this.bus)return;
   const AC=AudioSys.AC;
   if(this.nextT<AC.currentTime)this.nextT=AC.currentTime+0.05;
   const menu=this.mode==="menu",e=(menu?60/84:60/88)/2;
-  while(this.nextT<AC.currentTime+0.4){
-    const b=this.beat%32,t=this.nextT,bar=(b>>3)%4;
+  const MEL=[76,0,72,0,69,0,72,74, 76,0,79,0,76,0,74,72, 74,0,72,0,69,0,67,69, 72,0,69,0,-1,-1,-1,-1,
+             76,0,72,0,69,0,72,74, 76,0,79,0,76,0,74,72, 74,0,72,0,69,0,67,69, 72,0,74,0,76,0,79,0];
+  const CH=[[110,130.81,164.81],[87.31,110,130.81],[130.81,164.81,196],[98,123.47,146.83]];
+  const RT=[55,43.65,65.41,49];
+  const mf=m=>440*Math.pow(2,(m-69)/12);
+  while(this.nextT<AC.currentTime+0.5){
+    const b=this.beat%128,t=this.nextT,bar=b>>3;
     if(menu){
-      if(b%4===0)this.tone({t,f:b%16===0?52:48,f1:30,d:e*1.6,g:0.20});
-      const bass=[55,55,65.41,49][bar];
-      if(b%8===0||b%8===3||b%8===6)this.tone({t,w:"sawtooth",f:b%8===6?bass*2:bass,d:e*1.5,g:0.11,lp:340,lp1:120});
-      if(b%8===4){this.nz({t,f:1900,q:1,g:0.075,d:0.09});this.tone({t,w:"triangle",f:210,f1:150,g:0.05,d:0.08});}
-      if(b%2===1)this.nz({t,f:7200,q:1.4,g:0.028,d:0.03,r:1.3});
-      if(b%8===0){
-        const ch=[[220,261.6,329.6],[174.6,220,261.6],[261.6,329.6,392],[196,246.9,293.7]][bar];
-        for(const cf of ch)this.tone({t,w:"triangle",f:cf,d:e*7,g:0.032,a:0.9});
+      const ch=CH[bar%4],rt=RT[bar%4];
+      if(Math.random()<0.045)this.nz({t,f:1500+rand(900),q:4,g:0.013,d:rand(0.05,0.16),r:rand(0.8,1.3)});
+      if(bar<4){
+        if(b%8===0)for(const cf of ch)this.tone({t,w:"triangle",f:cf,d:e*8,g:0.034,a:1.1});
+        if(b%4===0)this.tone({t,f:rt,f1:rt*0.72,d:e*3,g:0.13});
+        if(b%8===4)this.nz({t,f:800,q:0.7,g:0.03,d:e*3,a:e*2,r:0.5});
+      }else if(bar<8){
+        if(b%8===0)for(const cf of ch)this.tone({t,w:"triangle",f:cf,d:e*8,g:0.038,a:0.9});
+        if(b%4===0)this.taiko(t,b%8===0?0.42:0.22);
+        if(b%2===1)this.nz({t,f:7200,q:1.4,g:0.024,d:0.03,r:1.3});
+        if(b%2===0)this.tone({t,f:rt,d:e*0.85,g:0.15});
+        if(b===60)this.nz({t,f:900,q:0.7,g:0.06,d:e*4,a:e*3,r:0.6});
+      }else if(bar<24){
+        const mi=MEL[b%64];
+        if(mi>0)this.brass(t,mf(mi),e*(mi===79?3.2:1.8),0.085);
+        if(b%4===0)this.taiko(t,b%8===0?0.46:0.26);
+        if(b%8===5)this.nz({t,f:1900,q:1,g:0.06,d:0.09});
+        if(b%2===1)this.nz({t,f:7200,q:1.4,g:0.024,d:0.03,r:1.3});
+        if(b%2===0)this.tone({t,f:rt,d:e*0.85,g:0.16});
+        else this.tone({t,f:rt*2,d:e*0.5,g:0.075});
+        if(b%16===0)this.tone({t,f:rt,f1:rt*0.7,d:e*6,g:0.12});
+      }else{
+        if(b%8===0)for(const cf of ch)this.tone({t,w:"triangle",f:cf,d:e*8,g:0.026,a:1.4});
+        const AR=[69,72,76,81,79,76,72,69];
+        if(b%4===0)this.piano(t,mf(AR[(b>>2)%8]),0.085);
+        if(b%8===0)this.taiko(t,0.12);
+        if(b%4===0)this.tone({t,f:rt,f1:rt*0.75,d:e*3,g:0.09});
       }
-      if(b===24)this.nz({t,f:900,q:0.7,g:0.05,d:e*6,a:e*4,r:0.6});
     }else{
       if(b%8===0){this.tone({t,f:50,f1:32,d:e*3.5,g:0.17});this.tone({t,w:"sawtooth",f:55,d:e*7,g:0.07,lp:200,lp1:90});}
       if(b%8===4)this.nz({t,f:1600,q:1,g:0.03,d:0.07});
