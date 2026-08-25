@@ -764,8 +764,10 @@ function buildM4(){
   }
   if(attOf("optic")==="holo"){
     gpart(gunRoot,B(0.054,0.012,0.055),gmMetal,0,0.079,-0.12);
-    gpart(gunRoot,B(0.054,0.05,0.014),gmMetal,0,0.106,-0.142);
-    gpart(gunRoot,B(0.054,0.05,0.014),gmMetal,0,0.106,-0.098);
+    gpart(gunRoot,B(0.054,0.007,0.014),gmMetal,0,0.129,-0.142);
+    gpart(gunRoot,B(0.054,0.007,0.014),gmMetal,0,0.083,-0.142);
+    gpart(gunRoot,B(0.054,0.007,0.014),gmMetal,0,0.129,-0.098);
+    gpart(gunRoot,B(0.054,0.007,0.014),gmMetal,0,0.083,-0.098);
     gpart(gunRoot,B(0.014,0.05,0.014),gmMetal,0.02,0.106,-0.12);
     gpart(gunRoot,B(0.014,0.05,0.014),gmMetal,-0.02,0.106,-0.12);
     holoRing=new THREE.Mesh(new THREE.TorusGeometry(0.012,0.0022,8,20),new THREE.MeshStandardMaterial({color:0x330000,emissive:0xff2418,emissiveIntensity:1.6,roughness:0.5}));
@@ -806,8 +808,7 @@ function rebuildGuns(force){
 let laserLine=null,laserArr=null;
 function updateLaser(){
   const on=Weapon.cur==="m4"&&attOf("grip")==="laser"&&!player.dead&&Game.mode!=="menu"
-    &&!Pause.isOpen&&!Weapon.reloading&&Weapon.adsT<0.5&&Weapon.swT<=0
-    &&(Input.trig||T-Weapon.lastShot<0.3);
+    &&!Pause.isOpen&&!Weapon.reloading&&Weapon.adsT<0.5&&Weapon.swT<=0;
   if(!laserLine){
     laserArr=new Float32Array(6);
     const g=new THREE.BufferGeometry();
@@ -1370,38 +1371,6 @@ rustout:{
   W.building(-28,24,8,6,3);
  }
 },
-nightport:{
- name:"夜港",en:"NIGHT PORT",linkD:26,tag:"100x100 · 夜战",
- sw:["#0d1524","#1d3048","#0a0f16"],
- fogC:0x1c2836,fogD:0.008,bgC:0x16202e,exp:1.6,tint:0x76828f,
- sunC:0x4a5f8a,sunI:1.25,sunP:[-30,40,20],
- hS:0x2e4258,hG:0x12161c,hI:0.85,aC:0x16202e,aI:1.3,
- skTC:0x05070f,skMC:0x0d1524,skHC:0x1a2434,skSC:0x8fb0dd,sd:[-30,40,20],
- spawns:{ally:[[-18,44],[-8,45],[0,43],[8,45],[18,44],[-27,42]],
-         axis:[[-18,-44],[-8,-45],[0,-43],[8,-45],[18,-44],[-27,-42]]},
- wps:(function(){
-   const a=[];
-   for(const z of[-38,-30,-8,8,30,40])for(const x of[-36,-24,-12,0,12,24,36])a.push([x,z]);
-   for(const x of[-26,-14,-2,10,22]){a.push([x,-18]);a.push([x,18]);a.push([x,0]);}
-   return a;
- })(),
- build(W){
-  const mA=W.lm("nA",()=>new THREE.MeshStandardMaterial({map:stripesTex,color:0x2e5a66,roughness:0.65,metalness:0.4}));
-  const mB=W.lm("nB",()=>new THREE.MeshStandardMaterial({map:stripesTex,color:0x243b57,roughness:0.65,metalness:0.4}));
-  const mC=W.lm("nC",()=>new THREE.MeshStandardMaterial({map:stripesTex,color:0x5a3a2c,roughness:0.7,metalness:0.35}));
-  const row=(zs,xs,lvs)=>{xs.forEach((x,i)=>W.stack(x,zs,6.1,2.44,lvs[i],0,[mA,mB,mC][i%3]));};
-  row(-18,[-26,-14,-2,10,22,34],[1,2,1,2,1,2]);
-  row(0,[-32,-20,-8,4,16,28],[2,1,2,1,2,1]);
-  row(18,[-26,-14,-2,10,22,34],[2,1,2,1,2,1]);
-  W.box(-36,9,1.5,1.5,1.5,matWood,{ry:0.3});
-  W.box(30,-9,1.5,1.5,1.5,matWood,{ry:-0.5});
-  W.box(2,27,1.5,1.5,1.5,matWood,{ry:0.8});
-  W.box(-8,-30,1.5,1.5,1.5,matWood,{ry:0.1});
-  W.barrel(-22,26);W.barrel(-21.2,25.2);W.barrel(26,6);W.barrel(26.9,6.8);
-  W.pole(-46,-46);W.pole(46,-46);W.pole(-46,46);W.pole(46,46);
-  W.searchlight(-42,42,0.22);W.searchlight(42,-42,-0.18);
- }
-},
 dustout:{
  name:"灰沙哨站",en:"DUST OUTPOST",linkD:20,tag:"90x90 · 开阔",
  sw:["#d8c49a","#b08050","#6b5a40"],
@@ -1733,9 +1702,9 @@ init(){
     const wind=this.AC.createBufferSource();
     wind.buffer=this.noiseBuf;wind.loop=true;
     const wf=this.AC.createBiquadFilter();wf.type="lowpass";wf.frequency.value=220;
-    const wg=this.AC.createGain();wg.gain.value=0.011;
+    const wg=this.AC.createGain();wg.gain.value=0.004;
     const lfo=this.AC.createOscillator();lfo.frequency.value=0.07;
-    const lg=this.AC.createGain();lg.gain.value=45;
+    const lg=this.AC.createGain();lg.gain.value=22;
     lfo.connect(lg);lg.connect(wf.frequency);
     wind.connect(wf);wf.connect(wg);wg.connect(this.master);
     wind.start();lfo.start();
@@ -1910,7 +1879,7 @@ build(){
   lfo.connect(lg);lg.connect(drf.frequency);lfo.start();
   const air=this.AC.createBufferSource();air.buffer=AudioSys.noiseBuf;air.loop=true;
   const af=this.AC.createBiquadFilter();af.type="highpass";af.frequency.value=6500;
-  const ag=this.AC.createGain();ag.gain.value=0.002;
+  const ag=this.AC.createGain();ag.gain.value=0.0008;
   air.connect(af);af.connect(ag);ag.connect(this.bus);air.start();
   this.built=true;
 },
@@ -2119,11 +2088,12 @@ update(dt){
   if(this.moveAmt>0.02&&player.onGround)this.bobT+=dt*(this.sprintVis>0.5?11:7.5);
   this.slideAmt=damp(this.slideAmt,player.slide.active?Math.sin(Math.PI*clamp(player.slide.t/player.slide.T,0,1)):0,10,dt);
   const holoOn=this.cur==="m4"&&attOf("optic")==="holo";
-  const adsY=this.cur==="p11"?-0.052:(holoOn?-0.112:-SIGHT_H);
+  const adsY=this.cur==="p11"?-0.058:(holoOn?-0.112:-SIGHT_H);
   let px=lerp(POS_HIP.x,POS_ADS.x,this.adsT);
   let py=lerp(POS_HIP.y,adsY,this.adsT);
   let pz=lerp(POS_HIP.z,POS_ADS.z,this.adsT);
-  if(this.cur==="p11"){px+=0.045;py-=0.03;pz+=0.075;}
+  const hipK=1-this.adsT;
+  if(this.cur==="p11"){px+=0.045*hipK;py-=0.03*hipK;pz+=0.075*hipK;}
   let rx=0,ry=0,rz=0;
   const sw=this.sprintVis*(1-this.adsT);
   px=lerp(px,POS_SPRINT.x,sw);py=lerp(py,POS_SPRINT.y,sw);pz=lerp(pz,POS_SPRINT.z,sw);
@@ -3493,7 +3463,7 @@ toMenu(){
 const MapSel={built:false,thumbs:{},
 thumb(key){
   if(this.thumbs[key])return this.thumbs[key];
-  const prevKey=World.key,keys=["rustout","nightport","dustout","shipment","crash","dome"];
+  const prevKey=World.key,keys=["rustout","dustout","shipment","crash","dome"];
   const data=[];
   for(const k of keys){
     World.load(k);
@@ -3531,7 +3501,7 @@ show(){
   if(!this.built){
     this.built=true;
     const row=$("mapsrow");
-    for(const key of["rustout","nightport","dustout","shipment","crash","dome"]){
+    for(const key of["rustout","dustout","shipment","crash","dome"]){
       const M=MAPS[key];
       const c=document.createElement("div");
       c.className="mcard";
