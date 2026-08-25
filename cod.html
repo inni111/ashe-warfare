@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>灰烬战线 ASHEN FRONTLINE</title>
+<title>使命召唤：灰烬战争 | CALL OF DUTY FAN TRIBUTE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
@@ -231,11 +231,34 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
 .minfo .cn{font-size:19px;font-weight:700;letter-spacing:.28em;color:var(--tx)}
 .minfo .en{font:600 10px var(--fn);letter-spacing:.32em;color:var(--dim);margin-top:4px}
 #mapback{margin-top:34px}
+#eqp{position:absolute;right:32px;bottom:122px;display:flex;gap:18px;justify-content:flex-end;text-shadow:0 1px 4px #000}
+.eqi{display:flex;align-items:center;gap:7px;font:700 16px Consolas,monospace;color:#ece8da}
+.eqi .ico{position:relative;width:13px;height:18px;border:1.5px solid rgba(236,232,218,.92)}
+.eqi .ico::before{content:"";position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:5px;height:4px;background:rgba(236,232,218,.92)}
+.eqi .ico.ifl{width:17px;height:12px}
+.eqi .ico.ifl::after{content:"";position:absolute;left:2px;right:2px;top:4px;height:1.5px;background:rgba(236,232,218,.92)}
+.eqi .eky{font-size:9px;color:var(--dim);letter-spacing:.1em;border:1px solid var(--line);padding:1px 5px;margin-left:2px}
+.eqi.off{opacity:.3}
+#fw{position:fixed;inset:0;z-index:36;background:#fff;opacity:0;pointer-events:none}
+.kf .pts{color:var(--am);font-family:Consolas,monospace;font-size:11px;margin-left:7px;letter-spacing:.04em}
+#armov{position:fixed;inset:0;z-index:52;display:none;background:rgba(4,5,7,.86)}
+#armcol{width:min(600px,94vw);height:100%;padding:6vh 44px;background:rgba(11,12,14,.97);border-right:1px solid var(--line);overflow-y:auto}
+#armcol::-webkit-scrollbar{width:4px}
+#armcol::-webkit-scrollbar-thumb{background:#33322b}
+.arow{display:flex;align-items:center;gap:14px;padding:11px 2px;border-bottom:1px solid rgba(232,228,216,.08);cursor:pointer}
+.amk{width:14px;height:14px;border:1px solid var(--line);flex:none;position:relative}
+.arow:hover .azh{color:#fff}
+.arow.sel .amk{border-color:var(--am)}
+.arow.sel .amk::after{content:"";position:absolute;left:3px;top:3px;right:3px;bottom:3px;background:var(--am)}
+.abody{display:flex;align-items:baseline;gap:10px;min-width:0}
+.azh{font-size:16px;font-weight:700;letter-spacing:.24em;color:var(--tx);transition:color .15s;white-space:nowrap}
+.aen{font:600 9px var(--fn);letter-spacing:.26em;color:var(--dim2);white-space:nowrap}
+.adesc{margin-left:auto;font:500 10.5px var(--fn);letter-spacing:.12em;color:var(--dim);text-align:right;white-space:nowrap}
 </style>
 </head>
 <body class="menu">
 <div id="errbar"></div>
-<div id="boot"><div class="stud">ASHEN STUDIO PRESENTS</div></div>
+<div id="boot"><div class="stud">IN ASSOCIATION WITH ASHEN TASK FORCE</div></div>
 <div id="mshade"></div><div id="grain"></div><div id="scan"></div>
 <div id="lbt" class="lbx"></div><div id="lbb" class="lbx"></div>
 
@@ -246,6 +269,10 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
   <div id="ch"><i class="dot"></i><i class="t"></i><i class="b"></i><i class="lf"></i><i class="rt"></i></div>
   <div id="hm"><i></i><i></i><i></i><i></i></div>
   <div id="objban"><span class="bl"></span><span id="obtxt"></span><span class="bl"></span></div>
+  <div id="eqp">
+    <div class="eqi" id="eqf"><span class="ico ifg"></span><span id="eqfn">2</span><span class="eky" id="eqfk">G</span></div>
+    <div class="eqi" id="eql"><span class="ico ifl"></span><span id="eqln">1</span><span class="eky" id="eqlk">T</span></div>
+  </div>
   <div id="ammo"><div id="wmode">M4A1 · 全自动</div><div><span id="amag">30</span><span id="ares">| 120</span></div></div>
   <div id="rld"><div id="rldt">装填中 RELOADING</div><div id="rldbar"><div id="rldf"></div></div></div>
   <div id="feed"></div>
@@ -256,8 +283,9 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
 </div>
 <div id="deadov"><h1 id="deadtt">任务失败</h1><p id="deadsub">按 R 重新部署</p></div>
 <div id="vc"><i class="c"></i><i class="t"></i><i class="b"></i><i class="l"></i><i class="r"></i></div>
+<div id="fw"></div>
 <div id="vigwrap"></div>
-  <div id="vtag">ASHEN FRONTLINE · V4.1.1</div>
+  <div id="vtag">ASHEN WARFARE · V4.1.1</div>
 <div id="fbtag">备用视角 FALLBACK INPUT</div>
 <div id="hint"><div class="hbox"><div id="ht1">点击锁定鼠标</div><div id="ht2">CLICK TO LOCK MOUSE</div></div></div>
 <div id="mtip"></div>
@@ -266,17 +294,18 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
   <div id="tfline" class="fin"><i></i>TASK FORCE // ASHEN</div>
   <div class="col">
     <div class="op fin" style="animation-delay:.28s">OPERATION</div>
-    <h1 id="mtt">灰烬战线</h1>
+    <h1 id="mtt">灰烬战争</h1>
     <div class="mrule fin" style="animation-delay:.4s"></div>
-    <div id="mts" class="fin" style="animation-delay:.44s">ASHEN FRONTLINE</div>
+    <div id="mts" class="fin" style="animation-delay:.44s">ASHEN WARFARE - A CALL OF DUTY FAN TRIBUTE</div>
     <nav>
-      <div class="mi lock" data-act="camp"><span class="hl"></span><span class="no">01</span><span class="zh">战役</span><span class="en">CAMPAIGN</span></div>
-      <div class="mi lock" data-act="tdm"><span class="hl"></span><span class="no">02</span><span class="zh">对峙模式</span><span class="en">STANDOFF</span></div>
-      <div class="mi" data-act="range"><span class="hl"></span><span class="no">03</span><span class="zh">训练场</span><span class="en">FIRING RANGE</span></div>
-      <div class="mi" data-act="set"><span class="hl"></span><span class="no">04</span><span class="zh">设置</span><span class="en">SETTINGS</span></div>
+      <div class="mi" data-act="mp"><span class="hl"></span><span class="no">01</span><span class="zh">多人对战</span><span class="en">MULTIPLAYER</span></div>
+      <div class="mi" data-act="range"><span class="hl"></span><span class="no">02</span><span class="zh">训练场</span><span class="en">FIRING RANGE</span></div>
+      <div class="mi lock" data-act="camp"><span class="hl"></span><span class="no">03</span><span class="zh">战役</span><span class="en">COMING SOON</span></div>
+      <div class="mi" data-act="armory"><span class="hl"></span><span class="no">04</span><span class="zh">军械库</span><span class="en">ARMORY</span></div>
+      <div class="mi" data-act="set"><span class="hl"></span><span class="no">05</span><span class="zh">设置</span><span class="en">SETTINGS</span></div>
     </nav>
   </div>
-  <div id="mfoot" class="fin" style="animation-delay:.5s"><span>WASD 移动 · SHIFT 冲刺 · C 蹲 / 滑铲 · 左键 射击 · 右键 机瞄 · R 换弹 · ESC 菜单</span><span class="v">V3.1</span></div>
+  <div id="mfoot" class="fin" style="animation-delay:.5s"><span>©2026 ASHEN STUDIO 非官方粉丝作品 与Activision无关</span><span class="v">V3.1</span></div>
 </div>
 
 <div id="pmenu">
@@ -303,6 +332,17 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
 <div id="board"></div>
 <div id="endov"><h1 id="endtt"></h1><div id="endsub"></div><div id="endboard"></div><div id="endhint">按 R 再来一局 · 按 M 返回主菜单</div></div>
 <div id="mapsel"><div id="mapseltt">选择作战地图 SELECT DEPLOYMENT ZONE</div><div id="mapsrow"></div><div class="btn" id="mapback">返 回</div></div>
+
+<div id="armov">
+  <div id="armcol">
+    <div class="ph"><span>军械库</span><span class="phe">ARMORY</span></div>
+    <div class="btn pri" id="arm-back">确认配装</div>
+    <div class="ph"><span>M4A1 配件预设</span><span class="phe">WEAPON PRESET</span></div>
+    <div id="armpres"></div>
+    <div class="ph"><span>被动技能 · 五选二</span><span class="phe">PERKS · PICK 2</span></div>
+    <div id="armperks"></div>
+  </div>
+</div>
 
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
@@ -350,13 +390,218 @@ window.addEventListener("unhandledrejection",e=>{
 });
 
 const DEF_SET={sens:1,fov:75,vol:0.5,musvol:0.6,shadow:true,partHi:true,lockFallback:true,
-  bind:{fwd:"KeyW",back:"KeyS",left:"KeyA",right:"KeyD",sprint:"ShiftLeft",crouch:"KeyC",jump:"Space",reload:"KeyR"}};
+  bind:{fwd:"KeyW",back:"KeyS",left:"KeyA",right:"KeyD",sprint:"ShiftLeft",crouch:"KeyC",jump:"Space",reload:"KeyR",frag:"KeyG",flash:"KeyT",inspect:"KeyF"},
+  perks:[],muz:"balanced"};
 let SET;
 try{SET=Object.assign(JSON.parse(JSON.stringify(DEF_SET)),JSON.parse(localStorage.getItem("ashen_set_v1")||"{}"));}
 catch(e){SET=JSON.parse(JSON.stringify(DEF_SET));}
 SET.bind=Object.assign({},DEF_SET.bind,SET.bind||{});
 function saveSet(){try{localStorage.setItem("ashen_set_v1",JSON.stringify(SET));}catch(e){}}
 let PART_MUL=1,baseFov=SET.fov,adsFov=Math.max(40,SET.fov-25);
+
+/* ===== 任务B/C/D 新增顶层声明集中区（先声明后使用） ===== */
+const NADE_CFG={fragMax:2,flashMax:1,fragFuse:3.5,flashFuse:1.6,cookLimit:2.5,radius:6,flashRadius:9,dmg:100};
+let nadeFrag=NADE_CFG.fragMax,nadeFlash=NADE_CFG.flashMax,flashWhiteT=0;
+const nadeMatFrag=new THREE.MeshStandardMaterial({color:0x39412c,roughness:0.6,metalness:0.25});
+const nadeMatFlash=new THREE.MeshStandardMaterial({color:0x6a6f72,roughness:0.45,metalness:0.5});
+const MUZ_PRESETS={cqb:{rec:0.8,spr:1.15,ads:1.2},balanced:{rec:1,spr:1,ads:1},precision:{rec:1.1,spr:0.75,ads:0.87}};
+const PERK_DEFS=[["lw","轻装疾行","LIGHTWEIGHT","移速 +8%"],
+  ["fh","快手","FAST HANDS","换弹时间 -30%"],
+  ["tg","强韧","TOUGHENED","受击镜头抖动 -50%"],
+  ["ds","死寂","DEAD SILENCE","自身脚步音量 -70%"],
+  ["al","警觉","ALERT","小地图标记开火敌人"]];
+const MUZ_DEFS=[["cqb","CQB","后坐 -20% · 散布 +15% · ADS 快 20%"],
+  ["balanced","BALANCED","均衡出厂配置"],
+  ["precision","PRECISION","散布 -25% · ADS 慢 15% · 后坐 +10%"]];
+const ARM={has(k){return Array.isArray(SET.perks)&&SET.perks.indexOf(k)>=0;},
+  count(){return Array.isArray(SET.perks)?SET.perks.length:0;},
+  muz(){return MUZ_PRESETS[SET.muz]||MUZ_PRESETS.balanced;}};
+function playStep(spr){
+  if(ARM.has("ds"))AudioSys.pn({type:"lowpass",freq:250+rand(120),q:0.5,gain:(spr?0.10:0.06)*0.3,dur:0.075,rate:rand(0.8,1.1)});
+  else AudioSys.step(spr);
+}
+const Nades={list:[],pin:false,pinT:0,gF:null,gL:null,
+mesh(type){
+  if(!this.gF){this.gF=new THREE.IcosahedronGeometry(0.078,1);this.gL=new THREE.CylinderGeometry(0.052,0.052,0.14,10);}
+  const m=new THREE.Mesh(type==="frag"?this.gF:this.gL,type==="frag"?nadeMatFrag:nadeMatFlash);
+  m.castShadow=true;scene.add(m);
+  return m;
+},
+pull(){
+  if(this.pin||player.dead||Pause.isOpen||Game.mode==="menu"||nadeFrag<=0)return;
+  nadeFrag--;this.pin=true;this.pinT=T;
+  AudioSys.pn({freq:3000,q:1,gain:.12,dur:.05});
+},
+release(){
+  if(!this.pin)return;
+  this.pin=false;
+  if(player.dead)return;
+  const dir=_va.set(0,0,-1).applyQuaternion(camera.quaternion);
+  const p=_vb.copy(camera.position).addScaledVector(dir,0.35).clone();
+  const vel=dir.clone().multiplyScalar(16);vel.y+=2.2;
+  const m=this.mesh("frag");m.position.copy(p);
+  this.list.push({m,p,vel,type:"frag",fuse:Math.max(0.35,NADE_CFG.fragFuse-(T-this.pinT)),bcd:0});
+  AudioSys.pn({freq:1500,q:1,gain:.08,dur:.06});
+},
+throwFlash(){
+  if(player.dead||Pause.isOpen||Game.mode==="menu"||nadeFlash<=0||this.pin)return;
+  nadeFlash--;
+  const dir=_va.set(0,0,-1).applyQuaternion(camera.quaternion);
+  const p=_vb.copy(camera.position).addScaledVector(dir,0.35).clone();
+  const vel=dir.clone().multiplyScalar(16);vel.y+=2.2;
+  const m=this.mesh("flash");m.position.copy(p);
+  this.list.push({m,p,vel,type:"flash",fuse:NADE_CFG.flashFuse,bcd:0});
+  AudioSys.pn({freq:2200,q:1.2,gain:.09,dur:.06});
+},
+cancel(){
+  if(!this.pin)return;
+  this.pin=false;
+  nadeFrag=Math.min(NADE_CFG.fragMax,nadeFrag+1);
+},
+clearAll(){
+  for(const n of this.list)scene.remove(n.m);
+  this.list.length=0;this.pin=false;
+},
+update(dt){
+  if(this.pin&&T-this.pinT>NADE_CFG.cookLimit){
+    this.pin=false;
+    const p=camera.position.clone();p.y-=0.15;
+    nadeExplode(p,true);
+  }
+  for(let i=this.list.length-1;i>=0;i--){
+    const n=this.list[i];
+    n.fuse-=dt;n.bcd-=dt;
+    if(n.fuse<=0){
+      scene.remove(n.m);this.list.splice(i,1);
+      if(n.type==="frag")nadeExplode(n.p,false);else flashBang(n.p);
+      continue;
+    }
+    n.vel.y-=GRAV*dt;
+    const r=0.09;
+    if(n.p.y<1.25){
+      const nx=n.p.x+n.vel.x*dt;
+      if(World.collidesAt(nx,n.p.z,r)){
+        if(n.bcd<=0){AudioSys.surface();n.bcd=0.15;}
+        n.vel.x*=-0.35;n.vel.y*=0.7;n.vel.z*=0.7;
+      }else n.p.x=nx;
+      const nz=n.p.z+n.vel.z*dt;
+      if(World.collidesAt(n.p.x,nz,r)){
+        if(n.bcd<=0){AudioSys.surface();n.bcd=0.15;}
+        n.vel.z*=-0.35;n.vel.y*=0.7;n.vel.x*=0.7;
+      }else n.p.z=nz;
+    }else{n.p.x+=n.vel.x*dt;n.p.z+=n.vel.z*dt;}
+    n.p.y+=n.vel.y*dt;
+    if(n.p.y<r){
+      n.p.y=r;
+      if(n.vel.y<-1.4){
+        n.vel.y*=-0.35;n.vel.x*=0.7;n.vel.z*=0.7;
+        if(n.bcd<=0){AudioSys.surface();n.bcd=0.15;}
+      }else{
+        n.vel.y=0;
+        const f=Math.max(0,1-4*dt);n.vel.x*=f;n.vel.z*=f;
+      }
+    }
+    n.m.position.copy(n.p);
+    n.m.rotation.x+=dt*6;n.m.rotation.z+=dt*4;
+  }
+}};
+function nadeExplode(p,cooked){
+  AudioSys.pt({f0:60,f1:28,gain:.5,dur:.6,rev:.5});
+  AudioSys.pn({type:"lowpass",freq:250,gain:.4,dur:.5,rate:.4,rev:.5});
+  Fx.flashAt(p,120);
+  sparksBurst(p,_vd.set(0,1,0),46);
+  dustBurst(p,_vd.set(0,1,0),26,0x574c3e);
+  const dx=p.x-player.pos.x,dy=p.y-(player.pos.y+1),dz=p.z-player.pos.z;
+  const pd=Math.sqrt(dx*dx+dy*dy+dz*dz);
+  const sk=clamp(1-pd/16,0,1);
+  camRec.recPv+=rand(-1,1)*0.09*sk;camRec.recYv+=rand(-1,1)*0.09*sk;
+  if(pd<NADE_CFG.radius&&!player.dead){
+    playerDamage(Math.round(NADE_CFG.dmg*(1-pd/NADE_CFG.radius)),p.x,p.z,null);
+  }
+  for(const b of bots){
+    if(!b.alive)continue;
+    if(Game.mode==="tdm"&&b.team==="ally")continue;
+    const d=Math.hypot(b.pos.x-p.x,b.pos.z-p.z);
+    if(d<NADE_CFG.radius)b.hit(NADE_CFG.dmg*(1-d/NADE_CFG.radius),false,_ve.set(b.pos.x,b.pos.y+1.2,b.pos.z).clone(),KILLER_PLAYER);
+  }
+}
+function flashBang(p){
+  AudioSys.pn({freq:3400,q:1,gain:.25,dur:.3,rev:.4});
+  AudioSys.pt({type:"square",f0:2000,f1:600,gain:.14,dur:.25,rev:.3});
+  Fx.flashAt(p,90);
+  sparksBurst(p,_vd.set(0,1,0),10);
+  if(!player.dead){
+    const dx=player.pos.x-p.x,dy=(player.pos.y+player.eyeH)-p.y,dz=player.pos.z-p.z;
+    const d=Math.sqrt(dx*dx+dy*dy+dz*dz);
+    if(d<NADE_CFG.flashRadius&&!World.losBlocked(p.x,p.y,p.z,player.pos.x,player.pos.y+player.eyeH,player.pos.z))
+      flashWhiteT=d<3?3.0:(d<6?2.0:1.2);
+  }
+  for(const b of bots){
+    if(!b.alive)continue;
+    const d=Math.hypot(b.pos.x-p.x,b.pos.z-p.z);
+    if(d<NADE_CFG.flashRadius&&b.losToPoint(p.x,p.y,p.z))b.blindT=d<3?3.2:2;
+  }
+}
+function tryInspect(){
+  if(Game.mode==="menu"||Pause.isOpen||player.dead)return;
+  if(Weapon.insA||Weapon.reloading||Weapon.adsT>0.25||Input.ads)return;
+  if(!player.onGround||player.slide.active||Nades.pin)return;
+  Weapon.insA=true;Weapon.insT=0;
+  AudioSys.pn({freq:2600,q:3,gain:.06,dur:.1,rate:1.3,lp:4200});
+}
+const ArmoryUI={built:false,
+open(){
+  AudioSys.init();AudioSys.resume();
+  if(!this.built){this.build();this.built=true;}
+  this.refresh();
+  $("mm").style.display="none";
+  $("armov").style.display="flex";
+},
+close(){
+  $("armov").style.display="none";
+  $("mm").style.display="block";
+  AudioSys.ui();
+},
+build(){
+  const pr=$("armperks");
+  for(const p of PERK_DEFS){
+    const r=document.createElement("div");
+    r.className="arow";r.dataset.id=p[0];
+    r.innerHTML='<span class="amk"></span><span class="abody"><span class="azh">'+p[1]+'</span><span class="aen">'+p[2]+'</span></span><span class="adesc">'+p[3]+'</span>';
+    r.addEventListener("mouseenter",()=>{AudioSys.init();AudioSys.tick();});
+    r.addEventListener("click",()=>this.togglePerk(p[0]));
+    pr.appendChild(r);
+  }
+  const mr=$("armpres");
+  for(const m of MUZ_DEFS){
+    const r=document.createElement("div");
+    r.className="arow";r.dataset.id=m[0];
+    r.innerHTML='<span class="amk"></span><span class="abody"><span class="azh">'+m[1]+'</span></span><span class="adesc">'+m[2]+'</span>';
+    r.addEventListener("mouseenter",()=>{AudioSys.init();AudioSys.tick();});
+    r.addEventListener("click",()=>this.setMuz(m[0]));
+    mr.appendChild(r);
+  }
+  $("arm-back").addEventListener("click",()=>this.close());
+  $("armov").addEventListener("mousedown",e=>{if(e.target===$("armov"))this.close();});
+},
+togglePerk(id){
+  const L=Array.isArray(SET.perks)?SET.perks.slice():[];
+  const i=L.indexOf(id);
+  if(i>=0)L.splice(i,1);
+  else{
+    if(L.length>=2){AudioSys.empty();return;}
+    L.push(id);
+  }
+  SET.perks=L;saveSet();this.refresh();AudioSys.ui();
+},
+setMuz(id){
+  SET.muz=id;saveSet();this.refresh();AudioSys.ui();
+},
+refresh(){
+  document.querySelectorAll("#armperks .arow").forEach(r=>r.classList.toggle("sel",ARM.has(r.dataset.id)));
+  document.querySelectorAll("#armpres .arow").forEach(r=>r.classList.toggle("sel",(SET.muz||"balanced")===r.dataset.id));
+}};
+/* ===== 集中区结束 ===== */
 
 const SENS=0.0021;
 const WALK=5.2,SPRINT=8.6,JUMP_V=8.4,GRAV=24,P_R=0.42,BND=48.4;
@@ -750,9 +995,9 @@ rustout:{
 nightport:{
  name:"夜港",en:"NIGHT PORT",linkD:26,
  sw:["#0d1524","#1d3048","#0a0f16"],
- fogC:0x0d1420,fogD:0.02,bgC:0x090e16,exp:1.0,tint:0x39404d,
- sunC:0x4a5f8a,sunI:0.55,sunP:[-30,40,20],
- hS:0x24384f,hG:0x0c0f14,hI:0.5,aC:0x16202e,aI:0.7,
+ fogC:0x16202e,fogD:0.011,bgC:0x101826,exp:1.35,tint:0x5c6878,
+ sunC:0x4a5f8a,sunI:0.9,sunP:[-30,40,20],
+ hS:0x2e4258,hG:0x12161c,hI:0.68,aC:0x16202e,aI:1.05,
  skTC:0x05070f,skMC:0x0d1524,skHC:0x1a2434,skSC:0x8fb0dd,sd:[-30,40,20],
  spawns:{ally:[[-18,44],[-8,45],[0,43],[8,45],[18,44],[-27,42]],
          axis:[[-18,-44],[-8,-45],[0,-43],[8,-45],[18,-44],[-27,-42]]},
@@ -1288,12 +1533,13 @@ const ROT_SPRINT={x:0.35,y:0.5,z:0.15};
 
 const Weapon={adsT:0,sprintVis:0,raiseT:0,bloom:0,lastShot:-9,reloading:false,rt:0,gunKick:0,rJolt:false,rSnap:false,
   bobT:0,moveAmt:0,idleT:rand(9),swayPX:0,swayPY:0,swayRX:0,swayRY:0,slideAmt:0,
+  insA:false,insT:0,insK:0,insAng:0,nadeK:0,rldMul:1,
 curSpread(){
   let s=lerp(0.03,0.0035,this.adsT)+this.bloom;
   if(!player.onGround)s+=0.02;
   s+=Math.hypot(player.vel.x,player.vel.z)*0.0018;
   if(player.crouch)s*=0.8;
-  return s;
+  return s*ARM.muz().spr;
 },
 coneDir(base,spread,out){
   _vb.set(1,0,0).applyQuaternion(camera.quaternion);
@@ -1304,6 +1550,7 @@ coneDir(base,spread,out){
 tryFire(){
   if(this.reloading)return;
   if(this.raiseT>0)return;
+  if(Nades.pin)return;
   if(this.sprintVis>0.3){this.raiseT=0.15;return;}
   if(ammo.mag<=0){if(Input.trigEdge){AudioSys.empty();}Input.trigEdge=false;return;}
   if(T-this.lastShot<FIRE_INT)return;
@@ -1320,9 +1567,10 @@ tryFire(){
   worldFlash.position.copy(mw);worldFlash.material.rotation=rand(Math.PI*2);worldFlash.scale.setScalar(rand(0.4,0.65));worldFlash.visible=true;
   worldLight.position.copy(mw);
   this.gunKick=1;
-  camRec.recPv+=rand(0.085,0.12);camRec.recYv+=rand(-0.038,0.038);
-  pitch=clamp(pitch+0.0016*(this.adsT>0.5?0.8:1),-1.45,1.45);
-  yaw+=rand(-0.0006,0.0006);
+  const mz=ARM.muz();
+  camRec.recPv+=rand(0.085,0.12)*mz.rec;camRec.recYv+=rand(-0.038,0.038)*mz.rec;
+  pitch=clamp(pitch+0.0016*(this.adsT>0.5?0.8:1)*mz.rec,-1.45,1.45);
+  yaw+=rand(-0.0006,0.0006)*mz.rec;
   this.bloom=Math.min(lerp(0.042,0.015,this.adsT),this.bloom+0.0068);
   AudioSys.shot();
   if(hit){
@@ -1347,11 +1595,12 @@ tryFire(){
 startReload(){
   if(this.reloading||ammo.mag>=MAG_SIZE||ammo.res<=0)return;
   this.reloading=true;this.rt=0;this.rJolt=false;this.rSnap=false;
+  this.rldMul=ARM.has("fh")?(1/0.7):1;
   AudioSys.reloadSeq();
 },
 update(dt){
   const wantAds=Input.ads&&!this.reloading&&!player.sprint?1:0;
-  this.adsT=damp(this.adsT,wantAds,14,dt);
+  this.adsT=damp(this.adsT,wantAds,14*ARM.muz().ads,dt);
   const sprintActive=player.sprint&&this.raiseT<=0;
   this.sprintVis=damp(this.sprintVis,sprintActive?1:0,this.raiseT>0?22:9,dt);
   if(this.raiseT>0)this.raiseT-=dt;
@@ -1378,6 +1627,20 @@ update(dt){
     rz+=0.3*this.slideAmt*player.slide.side;
     px-=0.04*this.slideAmt*player.slide.side;
   }
+  this.nadeK=damp(this.nadeK,Nades.pin?1:0,12,dt);
+  if(this.nadeK>0.003){py-=this.nadeK*0.03;rx+=this.nadeK*0.24;pz+=this.nadeK*0.05;}
+  if(this.insA){
+    this.insT+=dt;
+    if(this.insT>=2.5||Input.trig||this.reloading||Input.ads||!player.onGround||player.slide.active||hs>1.6)this.insA=false;
+  }
+  this.insK=damp(this.insK,this.insA?1:0,this.insA?9:15,dt);
+  if(this.insA)this.insAng+=dt*2.3;else this.insAng=damp(this.insAng,0,8,dt);
+  const ik=this.insK*(1-this.adsT)*(1-this.sprintVis)*(this.reloading?0:1);
+  if(ik>0.004){
+    const kk=ik*Math.sin(Math.PI*clamp(this.insT/2.5,0,1));
+    px=lerp(px,0.01,kk);py=lerp(py,-0.185,kk);pz=lerp(pz,-0.43,kk);
+    ry+=this.insAng*kk;rx+=kk*0.1;rz+=kk*0.18;
+  }
   Input.mvx*=Math.exp(-14*dt);Input.mvy*=Math.exp(-14*dt);
   const tx=clamp(-Input.mvx*0.0022*(1-this.adsT*0.7),-0.17,0.17);
   const ty=clamp(-Input.mvy*0.0022*(1-this.adsT*0.7),-0.15,0.13);
@@ -1393,7 +1656,7 @@ update(dt){
   magMesh.visible=true;
   chargeMesh.position.z=CH_Z;
   if(this.reloading){
-    this.rt+=dt;
+    this.rt+=dt*this.rldMul;
     const t=this.rt;
     const tilt=Math.min(sstep(t,0,0.45),1-sstep(t,R_T-0.2,R_T));
     py-=tilt*0.07;px+=tilt*0.05;
@@ -1452,7 +1715,7 @@ function playerUpdate(dt){
     P.vel.x=S.dir.x*sp;P.vel.z=S.dir.z*sp;
     if(S.t<=0){S.active=false;P.crouch=false;S.cd=0.15;}
   }else{
-    const speed=WALK*(wantSprint?SPRINT/WALK:1)*(Weapon.adsT>0.5?0.5:1)*(P.crouch?0.55:1);
+    const speed=WALK*(wantSprint?SPRINT/WALK:1)*(Weapon.adsT>0.5?0.5:1)*(P.crouch?0.55:1)*(ARM.has("lw")?1.08:1);
     _va.set(rxv*ix+fx*iz,0,rzv*ix+fz*iz);
     if(_va.lengthSq()>0)_va.normalize().multiplyScalar(speed);
     const lam=P.onGround?12:2.5;
@@ -1487,14 +1750,14 @@ function playerUpdate(dt){
   if(!World.collidesAt(P.pos.x,nz,P_R))P.pos.z=nz;else P.vel.z=0;
   P.pos.y+=P.vel.y*dt;
   if(P.pos.y<=0){
-    if(!P.onGround&&P.vel.y<-7)AudioSys.step(true);
+    if(!P.onGround&&P.vel.y<-7)playStep(true);
     P.pos.y=0;P.vel.y=0;P.onGround=true;
   }
   const hs=Math.hypot(P.vel.x,P.vel.z);
   if(P.onGround&&hs>0.6&&!S.active){
     P.stepAcc+=hs*dt;
     const thr=P.sprint?2.1:2.6;
-    if(P.stepAcc>thr){P.stepAcc=0;AudioSys.step(P.sprint);}
+    if(P.stepAcc>thr){P.stepAcc=0;playStep(P.sprint);}
   }
   Weapon.moveAmt=damp(Weapon.moveAmt,P.onGround&&hs>0.6&&!S.active?1:0,8,dt);
   const eyeTarget=S.active?0.85:(P.crouch?1.05:1.62);
@@ -1515,13 +1778,15 @@ function playerDamage(dmg,sx,sz,by){
   if(Game.tdm&&Game.tdm.over)return;
   P.hp-=dmg;P.lastHit=T;
   P.arcs.push({ang:Math.atan2(sx-P.pos.x,-(sz-P.pos.z)),t:1});
-  camRec.recPv+=rand(-0.03,0.03);camRec.recYv+=rand(-0.04,0.04);
+  const skd=ARM.has("tg")?0.5:1;
+  camRec.recPv+=rand(-0.03,0.03)*skd;camRec.recYv+=rand(-0.04,0.04)*skd;
   AudioSys.hurt();
   if(P.hp<=0){P.hp=0;playerDie(by);}
 }
 function playerDie(by){
   const P=player;
   P.dead=true;P.deathT=0;
+  Nades.cancel();
   Game.stats.deaths++;
   if(by)HUD.killAdd(by.name,"你",false);
   if(Game.mode==="tdm"){
@@ -1553,7 +1818,9 @@ function playerRespawn(){
   pitch=0;
   P.arcs.length=0;
   ammo.mag=MAG_SIZE;ammo.res=RES_START;
-  Weapon.reloading=false;Weapon.adsT=0;
+  nadeFrag=NADE_CFG.fragMax;nadeFlash=NADE_CFG.flashMax;flashWhiteT=0;
+  Nades.cancel();
+  Weapon.reloading=false;Weapon.adsT=0;Weapon.insA=false;
   renderer.domElement.style.filter="";
   HUD.setDead(false);
 }
@@ -1685,6 +1952,7 @@ class Bot{
     this.losT=rand(0.2);
     this.burstN=0;this.cdT=rand(0.5,1.5);
     this.chainN=0;this.lastHitT=-9;this.flashT=0;this.lastShotT=-99;
+    this.blindT=0;this.bwT=0;this.bwPt=null;
     this.deadT=0;this.respawnT=0;this.kills=0;this.deaths=0;
     this.invuln=0;this.wp=-1;this.prevWp=-1;this.target=null;
     this.coverFor=null;this.repickT=0;this.loseT=0;this.retreat=false;
@@ -1780,6 +2048,16 @@ class Bot{
     const nx=this.pos.x+_va.x*spd*dt,nz=this.pos.z+_va.z*spd*dt;
     if(!World.collidesAt(nx,this.pos.z,0.4))this.pos.x=nx;
     if(!World.collidesAt(this.pos.x,nz,0.4))this.pos.z=nz;
+  }
+  blindWander(dt){
+    this.engaged=false;
+    this.bwT-=dt;
+    if(this.bwT<=0||!this.bwPt||World.collidesAt(this.bwPt.x,this.bwPt.z,0.4)){
+      this.bwT=rand(0.6,1.2);
+      const w=World.wps[(Math.random()*World.wps.length)|0];
+      this.bwPt=w?{x:w.x,z:w.z}:{x:this.home.x,z:this.home.z};
+    }
+    this.moveToward(this.bwPt.x,this.bwPt.z,2.2,dt);
   }
   fireAt(t){
     this.headPos(_va);
@@ -1938,9 +2216,13 @@ class Bot{
       if(!player.dead&&dist<48)this.hasLOS=this.losToPoint(player.pos.x,player.pos.y+player.eyeH,player.pos.z);
       else this.hasLOS=false;
     }
-    if(this.hasLOS&&dist<48)this.engaged=true;
+    if(this.hasLOS&&dist<48&&this.blindT<=0)this.engaged=true;
     let moveTo=null;
-    if(this.engaged&&!player.dead){
+    if(this.blindT>0){
+      this.blindT-=dt;
+      this.wantExpose=0.05;
+      this.blindWander(dt);
+    }else if(this.engaged&&!player.dead){
       const ty=Math.atan2(dx,dz);
       let da=ty-this.yaw;
       while(da>Math.PI)da-=Math.PI*2;
@@ -1975,6 +2257,7 @@ class Bot{
     this.repickT-=dt;
     if(this.hp<100&&T-this.lastHitT>5)this.hp=Math.min(100,this.hp+16*dt);
     if(frozen){this.roam(dt,true);return;}
+    if(this.blindT>0){this.blindT-=dt;this.target=null;this.coverFor=null;this.roam(dt,false);return;}
     this.losT-=dt;
     if(this.losT<=0){
       this.losT=0.18;
@@ -2078,7 +2361,7 @@ function fillBoard(el){
   const allies=[{n:"你",k:Game.stats.kills,d:Game.stats.deaths,me:true}];
   const axis=[];
   for(const b of bots)(b.team==="ally"?allies:axis).push({n:b.name,k:b.kills,d:b.deaths});
-  el.innerHTML="<h3>"+(Game.mode==="tdm"&&Game.tdm?("对峙模式 · "+MAPS[Game.tdm.map].name+" · 先到 50 杀"):"记分板")+"</h3>"+
+  el.innerHTML="<h3>"+(Game.mode==="tdm"&&Game.tdm?("TEAM DEATHMATCH · "+MAPS[Game.tdm.map].name+" · 先到 50 杀"):"记分板")+"</h3>"+
     '<div class="bcols"><div class="bcol"><div class="bhead"><span>友军 ALLIES</span><span>K / D</span></div>'+mk(allies)+
     '</div><div class="bcol"><div class="bhead"><span>敌军 ENEMY</span><span>K / D</span></div>'+mk(axis)+"</div></div>";
 }
@@ -2094,7 +2377,8 @@ const HUD={
   vig:$("vig"),dmgcv:$("dmgcv"),objline:$("objline"),deadov:$("deadov"),
   cmini:$("cmini").getContext("2d"),
   hp:$("hp"),hpnum:$("hpnum"),hpfill:$("hpfill"),ccmp:$("cmp").getContext("2d"),
-  lastAM:"",lastAR:"",lastHP:100,hmTO:0,mkChain:0,mkLast:-9,prevAlive:-1,
+  eqf:$("eqf"),eqfn:$("eqfn"),eql:$("eql"),eqln:$("eqln"),fwEl:$("fw"),
+  lastAM:"",lastAR:"",lastHP:100,hmTO:0,mkChain:0,mkLast:-9,prevAlive:-1,lastNF:-1,lastNL:-1,lastFW:-1,
   hitmark(head){
     this.hm.classList.toggle("hs",!!head);
     this.hm.classList.remove("on");
@@ -2114,7 +2398,7 @@ const HUD={
   killAdd(killer,victim,head){
     const d=document.createElement("div");
     d.className="kf"+((killer==="你"||victim==="你")?" me":"");
-    d.innerHTML="<b>"+killer+"</b><span class='wpn'>M4A1</span>"+victim+(head?"<i class='hs'>爆头</i>":"");
+    d.innerHTML="<b>"+killer+"</b><span class='wpn'>"+(head?"HEADSHOT":"ELIMINATED")+"</span>"+victim+"<span class='pts'>+"+(head?"125":"100")+"</span>";
     this.feed.prepend(d);
     while(this.feed.children.length>5)this.feed.lastChild.remove();
     setTimeout(()=>d.classList.add("out"),3800);
@@ -2176,6 +2460,11 @@ const HUD={
     this.amag.classList.toggle("crit",ammo.mag===0);
     const r="| "+ammo.res;
     if(r!==this.lastAR){this.lastAR=r;this.ares.textContent=r;}
+    if(this.lastNF!==nadeFrag){this.lastNF=nadeFrag;this.eqfn.textContent=nadeFrag;this.eqf.classList.toggle("off",nadeFrag<=0);}
+    if(this.lastNL!==nadeFlash){this.lastNL=nadeFlash;this.eqln.textContent=nadeFlash;this.eql.classList.toggle("off",nadeFlash<=0);}
+    if(flashWhiteT>0)flashWhiteT=Math.max(0,flashWhiteT-dt);
+    const fo=flashWhiteT>0?clamp(flashWhiteT/1.5,0,1):0;
+    if(fo!==this.lastFW){this.lastFW=fo;this.fwEl.style.opacity=fo;}
     const rl=Weapon.reloading;
     $("rld").style.opacity=rl?1:0;
     if(rl)$("rldf").style.transform="scaleX("+clamp(Weapon.rt/R_T,0,1)+")";
@@ -2230,7 +2519,7 @@ const HUD={
       if(Game.mode==="tdm"&&b.team==="ally"){
         ctx.fillStyle="#37d06a";
         ctx.beginPath();ctx.arc(p[0],p[1],2.6,0,7);ctx.fill();
-      }else if(b.engaged||T-b.lastShotT<2){
+      }else if(b.engaged||(ARM.has("al")&&T-b.lastShotT<2.5)){
         ctx.fillStyle="#ff4838";
         ctx.beginPath();ctx.arc(p[0],p[1],3,0,7);ctx.fill();
       }
@@ -2435,10 +2724,11 @@ init(){
       Music.start();
       AudioSys.trans();
       const act=el.dataset.act;
-      if(act==="range"){Game.startRange();}
-      else if(act==="tdm"){MapSel.show();}
+      if(act==="mp"){MapSel.show();}
+      else if(act==="range"){Game.startRange();}
+      else if(act==="armory"){ArmoryUI.open();}
       else if(act==="set"){Pause.openSettings();}
-      else{this.tipAt(el,"信号加密 · 后续部署");}
+      else{this.tipAt(el,"战役 · COMING SOON");}
     });
   });
   $("hint").addEventListener("mousedown",e=>{
@@ -2484,7 +2774,7 @@ init(){
     if(e.target===$("pmenu")){AudioSys.ui();Pause.closeAndLock();}
     else if(!VC.on&&Game.mode!=="menu"){VC.enable(e.clientX,e.clientY);}
   });
-  const ACTS=[["fwd","前进"],["back","后退"],["left","左移"],["right","右移"],["sprint","冲刺"],["crouch","蹲下 / 滑铲"],["jump","跳跃"],["reload","换弹"]];
+  const ACTS=[["fwd","前进"],["back","后退"],["left","左移"],["right","右移"],["sprint","冲刺"],["crouch","蹲下 / 滑铲"],["jump","跳跃"],["reload","换弹"],["frag","破片手雷"],["flash","闪光弹"],["inspect","检视武器"]];
   const bwrap=$("binds");
   for(const [k,label] of ACTS){
     const row=document.createElement("div");
@@ -2492,7 +2782,7 @@ init(){
     row.innerHTML="<span>"+label+"</span><span class='bk' data-k='"+k+"'></span>";
     row.addEventListener("click",()=>{
       AudioSys.init();AudioSys.ui();
-      if(this.capturing)this.captureCancel();
+      if(this.capturing)this.capturing=null;
       this.capturing=k;
       this.refreshUI();
     });
@@ -2509,6 +2799,8 @@ refreshUI(){
   $("q-shadow").textContent=SET.shadow?"开":"关";
   $("q-part").textContent=SET.partHi?"高":"低";
   $("q-lkfb").textContent=SET.lockFallback?"开":"关";
+  $("eqfk").textContent=(SET.bind.frag||"KeyG").replace("Key","");
+  $("eqlk").textContent=(SET.bind.flash||"KeyT").replace("Key","");
   for(const k in this.bindRows){
     this.bindRows[k].textContent=this.capturing===k?"按新键…":SET.bind[k];
     this.bindRows[k].classList.toggle("cap",this.capturing===k);
@@ -2546,6 +2838,7 @@ startRange(){
   if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
   this.stats={fired:0,hit:0,head:0,kills:0,deaths:0};
   if(this.mapKey!=="rustout"){World.load("rustout");this.mapKey="rustout";}
+  Nades.clearAll();
   showRangeTargets=true;setTargetsVisible(true);
   for(const t of targets)t.reset();
   spawnRangeBots();
@@ -2572,6 +2865,7 @@ startTdm(mapKey){
   if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
   this.stats={fired:0,hit:0,head:0,kills:0,deaths:0};
   showRangeTargets=false;setTargetsVisible(false);
+  Nades.clearAll();
   spawnTdmBots();
   playerRespawn();
   HUD.feed.innerHTML="";HUD.pops.innerHTML="";
@@ -2595,7 +2889,7 @@ endTdm(res){
   td.over=true;
   Input.trig=false;Input.ads=false;
   showBoard(false);
-  $("endtt").textContent=res==="win"?"胜利 VICTORY":res==="lose"?"战败 DEFEAT":"平局 DRAW";
+  $("endtt").textContent=res==="win"?"VICTORY 任务完成":res==="lose"?"MISSION FAILED 任务失败":"DRAW 平局";
   $("endsub").textContent="最终比分 友军 "+td.a+" : "+td.b+" 敌军 · 击杀 "+this.stats.kills+" · 阵亡 "+this.stats.deaths;
   const ov=$("endov");
   ov.classList.remove("lose","draw");
@@ -2614,6 +2908,8 @@ toMenu(){
   $("endov").classList.remove("on");
   $("tdmscore").style.display="none";
   $("mm").style.display="block";
+  Nades.clearAll();
+  flashWhiteT=0;
   document.body.classList.add("menu");
   document.body.classList.remove("playing");
   Music.start();
@@ -2683,7 +2979,8 @@ document.addEventListener("keydown",e=>{
   Input.keys[e.code]=true;
   if(e.code==="Escape"){
     if(Game.mode==="menu"){
-      if($("mapsel").style.display==="flex"){$("mapsel").style.display="none";AudioSys.ui();}
+      if($("armov").style.display==="flex"){$("armov").style.display="none";$("mm").style.display="block";AudioSys.ui();}
+      else if($("mapsel").style.display==="flex"){$("mapsel").style.display="none";AudioSys.ui();}
       else if($("pmenu").style.display==="flex"){$("pmenu").style.display="none";AudioSys.ui();}
     }else if(Pause.isOpen){
       Pause.closeAndLock();
@@ -2702,15 +2999,20 @@ document.addEventListener("keydown",e=>{
   if(e.code===SET.bind.jump)Input.jumpQ=true;
   else if(e.code===SET.bind.crouch)Input.crouchPressed=true;
   else if(e.code===SET.bind.reload&&!player.dead){Weapon.startReload();}
+  else if(e.code===SET.bind.frag&&!player.dead&&!Pause.isOpen){Nades.pull();}
+  else if(e.code===SET.bind.flash&&!player.dead&&!Pause.isOpen){Nades.throwFlash();}
+  else if(e.code===SET.bind.inspect&&!player.dead&&!Pause.isOpen){tryInspect();}
   else if(e.code==="KeyR"&&player.dead){playerRespawn();Lock.request();}
 });
 document.addEventListener("keyup",e=>{
   Input.keys[e.code]=false;
+  if(e.code===SET.bind.frag)Nades.release();
   if(e.code==="Tab")showBoard(false);
 });
 window.addEventListener("blur",()=>{
   for(const k in Input.keys)Input.keys[k]=false;
   Input.trig=false;Input.ads=false;
+  Nades.cancel();
 });
 
 function sim(dt){
@@ -2742,6 +3044,7 @@ function sim(dt){
   gunScene.updateMatrixWorld(true);
   if(Input.trig&&!player.dead)Weapon.tryFire();
   Input.trigEdge=false;
+  Nades.update(dt);
   for(const t of targets)t.update(dt);
   for(const b of bots)b.update(dt);
   if(Game.mode==="tdm"&&Game.tdm){
