@@ -282,6 +282,14 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
 .arow .acost{font:700 10px Consolas,monospace;color:var(--am);margin-left:10px;letter-spacing:.05em}
 #armfoot{border-top:1px solid var(--line);margin-top:14px;padding-top:14px;display:flex;align-items:center;gap:12px}
 #armsum{font:500 10px var(--fn);letter-spacing:.16em;color:var(--dim);margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow{display:flex;align-items:center;gap:12px;padding:11px 10px;cursor:pointer;border-left:2px solid transparent;margin:2px 0;transition:background .15s}
+.arow:hover{background:rgba(255,158,44,.05)}
+.arow.sel{border-left-color:var(--am);background:rgba(255,158,44,.06)}
+.amk{width:6px;height:6px;border:1px solid var(--dim2);flex:none}
+.arow.sel .amk{background:var(--am);border-color:var(--am)}
+.abody{display:flex;align-items:baseline;gap:10px;flex:none}
+.azh{font-size:14px;font-weight:700;letter-spacing:.2em;color:var(--tx)}
+.aen{font:500 9.5px var(--fn);letter-spacing:.22em;color:var(--dim2)}
 .btn.dis{opacity:.35;pointer-events:none}.adesc{margin-left:auto;font:500 10.5px var(--fn);letter-spacing:.12em;color:var(--dim);text-align:right;white-space:nowrap}
 .anote{padding:12px 2px;border-bottom:1px solid rgba(232,228,216,.08);font:500 11.5px var(--fn);letter-spacing:.14em;color:var(--dim)}
 .arow.dis{opacity:.4}
@@ -405,7 +413,7 @@ const lerp=(a,b,t)=>a+(b-a)*t;
 const damp=(a,b,l,dt)=>THREE.MathUtils.damp(a,b,l,dt);
 const sstep=(t,a,b)=>{const k=clamp((t-a)/(b-a),0,1);return k*k*(3-2*k);};
 const V3=THREE.Vector3;
-const _va=new V3(),_vb=new V3(),_vc=new V3(),_vd=new V3(),_ve=new V3(),_col=new THREE.Color();
+const _va=new V3(),_vb=new V3(),_vc=new V3(),_vd=new V3(),_ve=new V3(),_col=new THREE.Color(),_vq=new THREE.Quaternion();
 const rc=new THREE.Raycaster();rc.far=400;
 
 let errTO=0;
@@ -954,9 +962,11 @@ function updateLaser(){
   }
   laserLine.visible=on;
   if(!on)return;
-  muzzleObj.getWorldPosition(_va);
-  _vb.set(_va.x,_va.y-0.025,_va.z);
-  _vc.set(0,0,-1).applyQuaternion(camera.quaternion);
+  gunRoot.updateWorldMatrix(true,false);
+  _va.set(0.043,0.004,-0.366);gunRoot.localToWorld(_va);
+  _vb.copy(_va);
+  muzzleObj.getWorldQuaternion(_vq);
+  _vc.set(0,0,-1).applyQuaternion(_vq);
   rc.set(_vb,_vc);rc.far=30;
   const hits=rc.intersectObjects(World.wallMeshes,false);
   rc.far=400;
@@ -2379,6 +2389,19 @@ piano(t,f,g){
   this.tone({t,f:f*2,d:1.1,g:g*0.3,a:0.004});
   this.tone({t,f:f*3.003,d:0.5,g:g*0.09,a:0.004});
 },
+stinger(){
+  if(!this.AC||!this.built)return;
+  const t=this.AC.currentTime+0.04,e=60/84,mf=m=>440*Math.pow(2,(m-69)/12);
+  this.taiko(t,0.5);
+  this.brass(t+0.02,mf(57),e*1.7,0.095);
+  this.taiko(t+e*0.98,0.42);
+  this.brass(t+e,mf(64),e*1.6,0.09);
+  this.taiko(t+e*1.98,0.52);
+  this.brass(t+e*2,mf(69),e*2.4,0.105);
+  this.brass(t+e*2.02,mf(72),e*2.4,0.085);
+  this.nz({t:t+e*2,f:850,q:0.7,g:0.05,d:e*3,a:e*1.8,r:0.6});
+  this.tone({t:t+e*2,f:55,f1:36,d:e*3,g:0.16});
+},
 schedule(){
   if(!this.on||!AudioSys.AC||!this.bus)return;
   const AC=AudioSys.AC;
@@ -3488,7 +3511,7 @@ const HUD={
       const swK=Weapon.swT>0?Math.sin((1-Weapon.swT)*Math.PI):0;
       const scl=1-0.04*Math.max(swK,Weapon.insK||0);
       cu.save();
-      cu.translate(CCE,CCE);cu.scale(scl,scl);
+      cu.translate(CCE+46,CCE+46);cu.scale(scl,scl);
       const a0=-Math.PI/2,SWE=Math.PI*1.5;
       const low=ratio<0.15,amber=ratio<0.3;
       cu.lineWidth=4;cu.lineCap="round";
@@ -3877,7 +3900,7 @@ const Game={mode:"menu",mapKey:"rustout",tdm:null,stats:{fired:0,hit:0,head:0,ki
 startRange(){
   this.mode="range";
   Pause.isOpen=false;
-  Music.setMode("game");
+  Music.setMode("game");Music.stinger();
   $("mm").style.display="none";$("mapsel").style.display="none";$("pmenu").style.display="none";
   $("tdmscore").style.display="none";showBoard(false);
   $("endov").classList.remove("on");
@@ -3905,7 +3928,7 @@ startTdm(mapKey){
   this.mode="tdm";
   this.tdm={a:0,b:0,t:300,over:false,map:mapKey,pResT:0};
   Pause.isOpen=false;
-  Music.setMode("game");
+  Music.setMode("game");Music.stinger();
   $("mm").style.display="none";$("mapsel").style.display="none";$("pmenu").style.display="none";
   showBoard(false);
   $("endov").classList.remove("on");
@@ -3975,7 +3998,7 @@ toMenu(){
 const MapSel={built:false,thumbs:{},
 thumb(key){
   if(this.thumbs[key])return this.thumbs[key];
-  const prevKey=World.key,keys=["rustout","dustout","shipment","crash","dome"];
+  const prevKey=World.key,keys=["rustout","dustout","shipment","crash","dome","crossfire","nuketown","mansion"];
   const data=[];
   for(const k of keys){
     World.load(k);
