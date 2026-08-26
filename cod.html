@@ -251,32 +251,38 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
 #armcol::-webkit-scrollbar{width:4px}
 #armcol::-webkit-scrollbar-thumb{background:#33322b}
 #armwrap{display:flex;gap:22px;flex:1;min-height:0;margin-top:8px}
-#armcats{width:158px;flex:none;border-right:1px solid var(--line);padding-right:12px}
-.acat{padding:12px 10px;cursor:pointer;border-left:2px solid transparent;margin:2px 0}
-.acat span{display:block;font-size:15px;font-weight:700;letter-spacing:.3em;color:var(--dim);transition:color .15s}
-.acat i{display:block;font:600 8.5px var(--fn);font-style:normal;letter-spacing:.26em;color:var(--dim2);margin-top:3px}
-.acat:hover span{color:var(--tx)}
-.acat.on{border-left-color:var(--am)}
-.acat.on span{color:var(--am)}
+#armtop{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px}
+#armtitle{font-size:16px;font-weight:700;letter-spacing:.4em;color:var(--tx)}
+#armtitle i{font-style:normal;font:600 9px var(--fn);letter-spacing:.3em;color:var(--dim2);margin-left:12px}
+#armpts{font:700 26px Consolas,monospace;color:var(--am);letter-spacing:.04em}
+#armpts em{font:600 11px Consolas,monospace;color:var(--dim);font-style:normal;margin-left:4px}
+#armpts span{font:700 11px var(--fn);letter-spacing:.2em;color:var(--rd);margin-left:10px}
+#armpts.ov{color:var(--rd)}
+#armcats{width:196px;flex:none;border-right:1px solid var(--line);padding-right:12px}
+.slotr{padding:11px 10px;cursor:pointer;border-left:2px solid transparent;margin:2px 0}
+.slotr span{display:block;font-size:14px;font-weight:700;letter-spacing:.26em;color:var(--dim);transition:color .15s}
+.slotr i{display:block;font:500 10px var(--fn);font-style:normal;letter-spacing:.16em;color:var(--dim2);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slotr:hover span{color:var(--tx)}
+.slotr.on{border-left-color:var(--am);background:rgba(255,158,44,.06)}
+.slotr.on span{color:var(--am)}
+.slotr.on i{color:#cfc9b6}
 #armopts{flex:1;overflow-y:auto;padding-right:8px}
 #armopts::-webkit-scrollbar{width:4px}
 #armopts::-webkit-scrollbar-thumb{background:#33322b}
+.wdet .wt{font-size:24px;font-weight:800;letter-spacing:.3em;color:var(--tx);margin:4px 0 0}
+.wdet .we{font:600 10px var(--fn);letter-spacing:.3em;color:var(--dim2);margin-top:5px}
+.bars{margin:16px 0 6px;border-top:1px solid rgba(232,228,216,.08);padding-top:8px}
+.bar{display:flex;align-items:center;gap:12px;padding:5px 0}
+.bar .bl{width:48px;font:600 9px var(--fn);letter-spacing:.3em;color:var(--dim)}
+.bar .btrack{flex:1;height:5px;background:#22231f;display:block}
+.bar .bfill{display:block;height:100%;background:#e8e4d8}
+.arow.bkr .azh{color:var(--am)}
 .aslot{font:700 10px var(--fn);letter-spacing:.4em;color:var(--dim);margin:16px 0 4px;padding-left:2px}
+.arow.cy .azh{font-size:13px}
 .arow .acost{font:700 10px Consolas,monospace;color:var(--am);margin-left:10px;letter-spacing:.05em}
-#armfoot{border-top:1px solid var(--line);margin-top:14px;padding-top:14px;display:flex;align-items:center;gap:14px}
-#armpts{font:700 13px Consolas,monospace;color:#efe9d6;letter-spacing:.08em;margin-right:auto}
-#armpts b{color:var(--am)}
-#armpte{font:700 11px var(--fn);letter-spacing:.2em;color:var(--rd);margin-left:10px}
-.btn.dis{opacity:.35;pointer-events:none}
-.arow{display:flex;align-items:center;gap:14px;padding:11px 2px;border-bottom:1px solid rgba(232,228,216,.08);cursor:pointer}
-.amk{width:14px;height:14px;border:1px solid var(--line);flex:none;position:relative}
-.arow:hover .azh{color:#fff}
-.arow.sel .amk{border-color:var(--am)}
-.arow.sel .amk::after{content:"";position:absolute;left:3px;top:3px;right:3px;bottom:3px;background:var(--am)}
-.abody{display:flex;align-items:baseline;gap:10px;min-width:0}
-.azh{font-size:16px;font-weight:700;letter-spacing:.24em;color:var(--tx);transition:color .15s;white-space:nowrap}
-.aen{font:600 9px var(--fn);letter-spacing:.26em;color:var(--dim2);white-space:nowrap}
-.adesc{margin-left:auto;font:500 10.5px var(--fn);letter-spacing:.12em;color:var(--dim);text-align:right;white-space:nowrap}
+#armfoot{border-top:1px solid var(--line);margin-top:14px;padding-top:14px;display:flex;align-items:center;gap:12px}
+#armsum{font:500 10px var(--fn);letter-spacing:.16em;color:var(--dim);margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn.dis{opacity:.35;pointer-events:none}.adesc{margin-left:auto;font:500 10.5px var(--fn);letter-spacing:.12em;color:var(--dim);text-align:right;white-space:nowrap}
 .anote{padding:12px 2px;border-bottom:1px solid rgba(232,228,216,.08);font:500 11.5px var(--fn);letter-spacing:.14em;color:var(--dim)}
 .arow.dis{opacity:.4}
 </style>
@@ -361,13 +367,14 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
 
 <div id="armov">
   <div id="armcol">
-    <div class="ph"><span>Pick 10 配装</span><span class="phe">CREATE A CLASS</span></div>
+    <div id="armtop"><div id="armtitle">创建职业<i>CREATE A CLASS</i></div><div id="armpts"><b id="armptn">2</b><em>/10</em><span id="armpte"></span></div></div>
     <div id="armwrap">
       <div id="armcats"></div>
       <div id="armopts"></div>
     </div>
     <div id="armfoot">
-      <div id="armpts"><b id="armptn">2</b>/10 点<span id="armpte"></span></div>
+      <div id="armsum"></div>
+      <div class="btn" id="arm-reset">重 置</div>
       <div class="btn pri" id="arm-save">保存配装</div>
       <div class="btn" id="arm-back">返 回</div>
     </div>
@@ -454,15 +461,21 @@ const PRIMARY_DEFS=[
  ["ak","AK-47","ASSAULT RIFLE","全自动 · 600rpm · 伤害33 · 后坐大",1],
  ["mp5","MP5","SMG","全自动 · 850rpm · 伤害19 · 低后坐",1],
  ["scar","SCAR-H","BATTLE RIFLE","全自动 · 620rpm · 伤害34 · 弹匣20",1]];
-const ARM_NAV=[["primary","主武器","PRIMARY"],["secondary","副武器","SECONDARY"],["lethal","致命装备","LETHAL"],
- ["tactical","战术装备","TACTICAL"],["perk","被动技能","PERKS"]];
+const CAC_SLOTS=[["primary","主武器","PRIMARY"],["secondary","副武器","SECONDARY"],["lethal","致命装备","LETHAL"],
+ ["tactical","战术装备","TACTICAL"],["perk0","被动技能1","PERK 1"],["perk1","被动技能2","PERK 2"],["perk2","被动技能3","PERK 3"]];
+const WPN_BARS={
+ m4:{dmg:.62,rpm:.7,rng:.75,mob:.68},
+ ak:{dmg:.78,rpm:.6,rng:.72,mob:.55},
+ mp5:{dmg:.45,rpm:.88,rng:.5,mob:.92},
+ scar:{dmg:.8,rpm:.62,rng:.8,mob:.58},
+ p11:{dmg:.52,rpm:.32,rng:.35,mob:.95}};
 const ARM={has(k){return !!SET.loadout&&Array.isArray(SET.loadout.perks)&&SET.loadout.perks.indexOf(k)>=0;}};
 function playStep(spr){
   if(ARM.has("ds"))AudioSys.pn({type:"lowpass",freq:250+rand(120),q:0.5,gain:(spr?0.10:0.06)*0.3,dur:0.075,rate:rand(0.8,1.1)});
   else AudioSys.step(spr);
 }
 function normalizeLoadout(l){
-  const d={primary:"m4",secondary:false,attach:{muzzle:null,mag:null,grip:null,optic:null},perks:[],frag:true,flash:true};
+  const d={primary:"m4",secondary:false,attach:{muzzle:null,mag:null,grip:null,optic:null},perks:[null,null,null],frag:true,flash:true};
   if(!l||typeof l!=="object")return d;
   d.primary=PRIMARY_DEFS.some(p=>p[0]===l.primary)?l.primary:"m4";
   d.secondary=l.secondary===true;
@@ -471,7 +484,8 @@ function normalizeLoadout(l){
     d.attach[s]=ATTACH_DEFS.some(a=>a[0]===s&&a[4]===v)?v:null;
   }
   const ids=PERK_DEFS.map(p=>p[0]);
-  d.perks=(Array.isArray(l.perks)?l.perks:[]).filter(p=>ids.indexOf(p)>=0).slice(0,3);
+  const vals=(Array.isArray(l.perks)?l.perks:[]).filter(v=>typeof v==="string"&&ids.indexOf(v)>=0).slice(0,3);
+  d.perks=[vals[0]||null,vals[1]||null,vals[2]||null];
   d.frag=l.frag!==false;d.flash=l.flash!==false;
   return d;
 }
@@ -481,7 +495,7 @@ function lodCost(l){
   if(l.primary&&l.primary!=="m4")c++;
   if(l.secondary)c++;
   for(const s in l.attach)if(l.attach[s])c++;
-  c+=l.perks.length;
+  c+=(Array.isArray(l.perks)?l.perks.filter(Boolean):[]).length;
   if(l.frag)c++;if(l.flash)c++;
   return c;
 }
@@ -777,7 +791,7 @@ function tryInspect(){
   Weapon.insA=true;Weapon.insT=0;
   AudioSys.pn({freq:2600,q:3,gain:.06,dur:.1,rate:1.3,lp:4200});
 }
-let magMesh=null,chargeMesh=null,pistolMag=null,holoRing=null,muzzleObj=null,pistolMuzzle=null,gunBuiltKey="",rldCarry=null;
+let magMesh=null,chargeMesh=null,pistolMag=null,holoRing=null,holoRet=null,muzzleObj=null,pistolMuzzle=null,gunBuiltKey="",rldCarry=null;
 const MAG_HOME={x:0,y:-0.115,z:-0.06,rx:0.16};
 let MH={x:0,y:-0.115,z:-0.06,rx:0.16};
 const CH_Z=0.06;
@@ -860,18 +874,33 @@ function buildPrimary(cw){
       gpart(gunRoot,B(0.052,0.011,0.02),gmGrip,0,-0.004,-0.845);
     }
     if(attOf("optic")==="holo"){
-      gpart(gunRoot,B(0.054,0.012,0.055),gmMetal,0,0.079,-0.12);
-      gpart(gunRoot,B(0.054,0.007,0.014),gmMetal,0,0.129,-0.142);
-      gpart(gunRoot,B(0.054,0.007,0.014),gmMetal,0,0.083,-0.142);
-      gpart(gunRoot,B(0.054,0.007,0.014),gmMetal,0,0.129,-0.098);
-      gpart(gunRoot,B(0.054,0.007,0.014),gmMetal,0,0.083,-0.098);
-      gpart(gunRoot,B(0.014,0.05,0.014),gmMetal,0.02,0.106,-0.12);
-      gpart(gunRoot,B(0.014,0.05,0.014),gmMetal,-0.02,0.106,-0.12);
-      holoRing=new THREE.Mesh(new THREE.TorusGeometry(0.012,0.0022,8,20),new THREE.MeshStandardMaterial({color:0x330000,emissive:0xff2418,emissiveIntensity:1.6,roughness:0.5}));
+      const hm=new THREE.MeshStandardMaterial({color:0x1c1e22,roughness:0.4,metalness:0.6});
+      gpart(gunRoot,B(0.034,0.02,0.05),hm,0,0.078,-0.12);
+      holoRing=new THREE.Mesh(new THREE.TorusGeometry(0.0275,0.0062,8,24),hm);
       holoRing.position.set(0,0.104,-0.12);
       gunRoot.add(holoRing);
-    }
-    muzzleObj.position.set(0,0.018,-0.83);
+      const kn=new THREE.CylinderGeometry(0.005,0.005,0.014,8);
+      gpart(gunRoot,kn,hm,0,0.1385,-0.12);
+      gpart(gunRoot,kn,hm,-0.0335,0.104,-0.12,0,0,Math.PI/2);
+      gpart(gunRoot,kn,hm,0.0335,0.104,-0.12,0,0,Math.PI/2);
+      const lens=new THREE.Mesh(new THREE.CircleGeometry(0.0255,20),new THREE.MeshBasicMaterial({color:0x8ab4c8,transparent:true,opacity:0.12,depthWrite:false,side:THREE.DoubleSide}));
+      lens.position.set(0,0.104,-0.1215);
+      gunRoot.add(lens);
+      const em=new THREE.MeshStandardMaterial({color:0x220505,emissive:0xff2418,emissiveIntensity:2.2,roughness:0.4});
+      const dot=new THREE.Mesh(new THREE.CircleGeometry(0.0026,10),em);
+      dot.position.set(0,0.104,-0.1185);
+      gunRoot.add(dot);
+      holoRet=new THREE.Mesh(new THREE.TorusGeometry(0.0078,0.00075,6,20),em);
+      holoRet.position.set(0,0.104,-0.119);
+      gunRoot.add(holoRet);
+      const lm=new THREE.MeshBasicMaterial({color:0xff2418});
+      const ch1=new THREE.Mesh(new THREE.PlaneGeometry(0.0016,0.006),lm);
+      ch1.position.set(0,0.0938,-0.119);gunRoot.add(ch1);
+      const ch2=new THREE.Mesh(new THREE.PlaneGeometry(0.0016,0.005),lm);
+      ch2.position.set(-0.0042,0.0928,-0.119);ch2.rotation.z=-0.45;gunRoot.add(ch2);
+      const ch3=new THREE.Mesh(new THREE.PlaneGeometry(0.0016,0.005),lm);
+      ch3.position.set(0.0042,0.0928,-0.119);ch3.rotation.z=0.45;gunRoot.add(ch3);
+    }    muzzleObj.position.set(0,0.018,-0.83);
   }
   gunRoot.add(muzzleObj);
 }function buildPistol(){
@@ -975,7 +1004,7 @@ function dropMagFrom(src){
   RldDebris.list.push({m,v:new V3(rand(-0.25,0.25),-0.3,rand(-0.25,0.25)),av:new V3(rand(-7,7),0,rand(-7,7)),rest:false});
   AudioSys.pn({freq:1900,q:1,gain:.06,dur:.05});
 }
-const ArmoryUI={built:false,view:"root",draft:null,
+const ArmoryUI={built:false,slot:null,draft:null,
 open(){
   AudioSys.init();AudioSys.resume();
   this.draft=normalizeLoadout(JSON.parse(JSON.stringify(SET.loadout)));
@@ -983,10 +1012,11 @@ open(){
     this.built=true;
     $("arm-back").addEventListener("click",()=>this.close());
     $("arm-save").addEventListener("click",()=>this.save());
+    $("arm-reset").addEventListener("click",()=>this.resetDraft());
     $("armov").addEventListener("mousedown",e=>{if(e.target===$("armov"))this.close();});
   }
-  this.view="root";
-  this.renderNav();this.renderOpts();this.refreshPts();
+  this.slot=null;
+  this.renderSlots();this.renderDetail();this.refreshPts();
   $("mm").style.display="none";
   $("armov").style.display="flex";
 },
@@ -994,6 +1024,11 @@ close(){
   $("armov").style.display="none";
   $("mm").style.display="block";
   AudioSys.ui();
+},
+resetDraft(){
+  this.draft=normalizeLoadout({});
+  AudioSys.ui();
+  this.renderSlots();this.renderDetail();this.refreshPts();
 },
 save(){
   if(lodCost(this.draft)>10){AudioSys.empty();return;}
@@ -1010,77 +1045,127 @@ row(o,re){
   r.addEventListener("click",()=>{AudioSys.init();if(o.dis){AudioSys.empty();return;}o.click(re);});
   return r;
 },
-navItem(label,en,on,click){
+slotCur(id){
+  const D=this.draft;
+  if(id==="primary"){const p=PRIMARY_DEFS.find(p=>p[0]===D.primary)||PRIMARY_DEFS[0];return p[1]+(D.primary!=="m4"?" · 1点":" · 免费");}
+  if(id==="secondary")return D.secondary?"M1911 · 1点":"空";
+  if(id==="lethal")return D.frag?"破片手雷 · 1点":"空";
+  if(id==="tactical")return D.flash?"闪光弹 · 1点":"空";
+  const k=D.perks[+id.slice(4)];
+  return k?(PERK_DEFS.find(p=>p[0]===k)||["","?"])[1]+" · 1点":"空";
+},
+slotRow(s){
   const el=document.createElement("div");
-  el.className="acat"+(on?" on":"");
-  el.innerHTML="<span>"+label+"</span><i>"+en+"</i>";
+  el.className="slotr"+(this.slot===s[0]?" on":"");
+  el.innerHTML="<span>"+s[1]+"</span><i>"+this.slotCur(s[0])+"</i>";
   el.addEventListener("mouseenter",()=>{AudioSys.init();AudioSys.tick();});
-  el.addEventListener("click",()=>{AudioSys.ui();click();});
+  el.addEventListener("click",()=>{AudioSys.ui();this.slot=this.slot===s[0]?null:s[0];this.renderSlots();this.renderDetail();});
   return el;
 },
-renderNav(){
+renderSlots(){
   const w=$("armcats");w.innerHTML="";
-  w.appendChild(this.navItem("军械库","ARMORY",this.view==="root",()=>{this.view="root";this.renderNav();this.renderOpts();}));
-  for(const c of ARM_NAV){
-    if(this.view!==c[0])continue;
-    w.appendChild(this.navItem(c[1],c[2],true,()=>{}));
-  }
+  for(const s of CAC_SLOTS)w.appendChild(this.slotRow(s));
 },
-renderOpts(){
+bars(st){
+  const w=document.createElement("div");w.className="bars";
+  const mk=(label,v)=>{
+    const b=document.createElement("div");b.className="bar";
+    b.innerHTML='<span class="bl">'+label+'</span><span class="btrack"><span class="bfill" style="width:'+Math.round(v*100)+'%"></span></span>';
+    w.appendChild(b);
+  };
+  mk("伤害",st.dmg);mk("射速",st.rpm);mk("射程",st.rng);mk("机动",st.mob);
+  return w;
+},
+detailWeapon(re){
+  const w=document.createElement("div");w.className="wdet";
+  const D=this.draft,self=this;
+  let nm,en,st,showAtt=false;
+  if(this.slot==="primary"){
+    const p=PRIMARY_DEFS.find(p=>p[0]===D.primary)||PRIMARY_DEFS[0];
+    nm=p[1];en=p[2];st=WPN_BARS[D.primary]||WPN_BARS.m4;showAtt=D.primary==="m4";
+  }else{
+    if(!D.secondary){const d=document.createElement("div");d.className="anote";d.textContent="未携带副武器";w.appendChild(d);return w;}
+    nm="M1911";en="SEMI-AUTO PISTOL";st=WPN_BARS.p11;
+  }
+  const t=document.createElement("div");
+  t.innerHTML='<div class="wt">'+nm+'</div><div class="we">'+en+'</div>';
+  w.appendChild(t);
+  w.appendChild(self.bars(st));
+  if(showAtt){
+    for(const S of SLOT_META){
+      const r=document.createElement("div");
+      r.className="arow cy";
+      const curId=D.attach[S[0]];
+      const opts=[null].concat(ATTACH_DEFS.filter(a=>a[0]===S[0]).map(a=>a[4]));
+      const idx=Math.max(0,opts.indexOf(curId));
+      const curNm=curId?(ATTACH_DEFS.find(a=>a[4]===curId)[1]):"无";
+      r.innerHTML='<span class="amk'+(curId?" on":"")+'"></span><span class="abody"><span class="azh">'+S[1].split(" ")[0]+'</span><span class="aen">'+curNm+'</span></span><span class="adesc">'+(curId?"已装 · 1点":"点击切换")+"</span>";
+      r.addEventListener("mouseenter",()=>{AudioSys.init();AudioSys.tick();});
+      r.addEventListener("click",()=>{
+        AudioSys.ui();
+        const ni=opts[(idx+1)%opts.length];
+        if(ni&&!curId&&lodCost(D)>=10){AudioSys.empty();return;}
+        D.attach[S[0]]=ni;re();
+      });
+      w.appendChild(r);
+    }
+  }else if(this.slot==="primary"){
+    const d=document.createElement("div");d.className="anote";d.textContent="该武器暂不支持配件";w.appendChild(d);
+  }
+  return w;
+},
+renderDetail(){
   const w=$("armopts");w.innerHTML="";
   const D=this.draft,self=this;
-  const re=()=>{self.renderOpts();self.refreshPts();};
+  const re=()=>{self.renderSlots();self.renderDetail();self.refreshPts();};
   const room=()=>lodCost(D)<10;
   const add=o=>w.appendChild(self.row(o,re));
-  const info=txt=>{const d=document.createElement("div");d.className="anote";d.textContent=txt;w.appendChild(d);};
-  if(this.view==="root"){
+  const info=t=>{const d=document.createElement("div");d.className="anote";d.textContent=t;w.appendChild(d);};
+  if(!this.slot){
     const pn=(PRIMARY_DEFS.find(p=>p[0]===D.primary)||PRIMARY_DEFS[0])[1];
-    info("当前配装 · 主武器 "+pn+" · 副武器 "+(D.secondary?"M1911":"无")+" · 致命 "+(D.frag?"破片":"无")+" · 战术 "+(D.flash?"闪光":"无")+" · 被动 "+D.perks.length+"/3");
-    info("从左侧选择类别开始改装。总点数上限 10 点。");
-  }else if(this.view==="primary"){
+    const pk=D.perks.filter(Boolean).map(k=>(PERK_DEFS.find(p=>p[0]===k)||["",""])[1]).join(" / ");
+    info("主武器 "+pn+" · 副武器 "+(D.secondary?"M1911":"无")+" · 致命 "+(D.frag?"破片手雷":"无")+" · 战术 "+(D.flash?"闪光弹":"无"));
+    info("被动 "+(pk||"无"));
+    info("点击左侧槽位开始改装 · 总点数上限 10 点。");
+    return;
+  }
+  const back=document.createElement("div");
+  back.className="arow bkr";
+  back.innerHTML='<span class="abody"><span class="azh">返回</span><span class="aen">BACK TO SLOTS</span></span>';
+  back.addEventListener("mouseenter",()=>{AudioSys.init();AudioSys.tick();});
+  back.addEventListener("click",()=>{AudioSys.ui();self.slot=null;re();});
+  w.appendChild(back);
+  if(this.slot==="primary"){
     for(const p of PRIMARY_DEFS){
-      const id=p[0],on=D.primary===id;
+      const on=D.primary===p[0];
       add({sel:on,zh:p[1],en:p[2],desc:p[3],cost:p[4],
         click(){
           if(!on&&p[4]>0&&!room()){AudioSys.empty();return;}
-          D.primary=id;re();
+          D.primary=p[0];re();
         }});
     }
-    if(D.primary==="m4"){
-      for(const S of SLOT_META){
-        const sh=document.createElement("div");
-        sh.className="aslot";sh.textContent=S[1];
-        w.appendChild(sh);
-        add({sel:!D.attach[S[0]],zh:"无",en:"NONE",click(){D.attach[S[0]]=null;re();}});
-        for(const a of ATTACH_DEFS){
-          if(a[0]!==S[0])continue;
-          const id=a[4];
-          add({sel:D.attach[S[0]]===id,zh:a[1],en:a[2],desc:a[3],cost:1,
-            click(){if(!D.attach[S[0]]&&!room()){AudioSys.empty();return;}D.attach[S[0]]=id;re();}});
-        }
-      }
-    }else{
-      info("该武器暂不支持配件");
-    }
-  }else if(this.view==="secondary"){
+    w.appendChild(self.detailWeapon(re));
+  }else if(this.slot==="secondary"){
     add({sel:!D.secondary,zh:"无",en:"NONE",desc:"仅携带主武器",click(){D.secondary=false;re();}});
     add({sel:D.secondary,zh:"M1911",en:"SEMI-AUTO PISTOL",desc:"半自动 · 伤害34 · 爆头x1.5 · 弹匣8发",cost:1,click(){if(!D.secondary&&!room()){AudioSys.empty();return;}D.secondary=true;re();}});
-  }else if(this.view==="lethal"){
+    w.appendChild(self.detailWeapon(re));
+  }else if(this.slot==="lethal"){
     add({sel:!D.frag,zh:"无",en:"NONE",desc:"不携带致命装备",click(){D.frag=false;re();}});
     add({sel:D.frag,zh:"破片手雷",en:"FRAG GRENADE",desc:"每命2颗 · G键拔销投掷",cost:1,click(){if(!D.frag&&!room()){AudioSys.empty();return;}D.frag=true;re();}});
-  }else if(this.view==="tactical"){
+  }else if(this.slot==="tactical"){
     add({sel:!D.flash,zh:"无",en:"NONE",desc:"不携带战术装备",click(){D.flash=false;re();}});
     add({sel:D.flash,zh:"闪光弹",en:"FLASH BANG",desc:"每命1颗 · T键短投",cost:1,click(){if(!D.flash&&!room()){AudioSys.empty();return;}D.flash=true;re();}});
-  }else if(this.view==="perk"){
+  }else{
+    const n=+this.slot.slice(4);
+    add({sel:!D.perks[n],zh:"无",en:"EMPTY",desc:"该槽位留空",click(){D.perks[n]=null;re();}});
     for(const p of PERK_DEFS){
-      const on=D.perks.indexOf(p[0])>=0;
-      add({sel:on,zh:p[1],en:p[2],desc:p[3],cost:1,
+      const on=D.perks[n]===p[0];
+      add({sel:on,zh:p[1],en:p[2],desc:p[3],cost:on?0:1,
         click(){
-          const i=D.perks.indexOf(p[0]);
-          if(i>=0)D.perks.splice(i,1);
+          if(on)D.perks[n]=null;
           else{
-            if(D.perks.length>=3||!room()){AudioSys.empty();return;}
-            D.perks.push(p[0]);
+            if(D.perks[n]===null&&!room()){AudioSys.empty();return;}
+            D.perks[n]=p[0];
           }
           re();
         }});
@@ -1091,8 +1176,11 @@ refreshPts(){
   const c=lodCost(this.draft);
   $("armptn").textContent=c;
   const ov=c>10;
+  $("armpts").classList.toggle("ov",ov);
   $("armpte").textContent=ov?("超出 "+(c-10)+" 点"):"";
   $("arm-save").classList.toggle("dis",ov);
+  const pn=(PRIMARY_DEFS.find(p=>p[0]===this.draft.primary)||PRIMARY_DEFS[0])[1];
+  $("armsum").textContent=pn+" · "+(this.draft.secondary?"M1911":"无副武器")+" · 被动 "+this.draft.perks.filter(Boolean).length+"/3";
 }};/* ===== 集中区结束 ===== */
 
 const SENS=0.0021;
@@ -3395,30 +3483,39 @@ const HUD={
     if(fo!==this.lastFW){this.lastFW=fo;this.fwEl.style.opacity=fo;}
     const cu=this.chc,CSZ=160,CCE=CSZ/2;
     cu.clearRect(0,0,CSZ,CSZ);
-    if(Game.mode!=="menu"&&!P.dead&&Weapon.adsT<0.45){
+    if(Game.mode!=="menu"&&!P.dead){
       const stc=Weapon.ws(),ratio=clamp(ammo.mag/stc.mag,0,1);
-      const a0=Math.PI*0.06;
-      cu.lineWidth=3;
-      cu.strokeStyle="rgba(232,228,216,.16)";
-      cu.beginPath();cu.arc(CCE,CCE,34,a0,a0+Math.PI*0.5);cu.stroke();
+      const swK=Weapon.swT>0?Math.sin((1-Weapon.swT)*Math.PI):0;
+      const scl=1-0.04*Math.max(swK,Weapon.insK||0);
+      cu.save();
+      cu.translate(CCE,CCE);cu.scale(scl,scl);
+      const a0=-Math.PI/2,SWE=Math.PI*1.5;
       const low=ratio<0.15,amber=ratio<0.3;
+      cu.lineWidth=4;cu.lineCap="round";
+      cu.strokeStyle="rgba(232,228,216,.18)";
+      cu.beginPath();cu.arc(0,0,30,a0,a0+SWE);cu.stroke();
       cu.strokeStyle=low?"#ff5040":amber?"#ff9e2c":"#e8e4d8";
-      if(low)cu.globalAlpha=0.6+0.4*Math.abs(Math.sin(T*9));
-      cu.beginPath();cu.arc(CCE,CCE,34,a0,a0+Math.PI*0.5*ratio);cu.stroke();
-      cu.globalAlpha=1;
-      cu.fillStyle="#e8e4d8";
-      cu.font="700 12px Consolas";
-      cu.textAlign="center";
-      cu.fillText(String(ammo.mag),CCE+27,CCE+31);
+      if(low)cu.globalAlpha=0.55+0.45*Math.abs(Math.sin(T*8));
       if(Weapon.reloading){
         const pr=clamp(Weapon.rt/R_T,0,1);
-        cu.strokeStyle="rgba(232,228,216,.18)";
-        cu.beginPath();cu.arc(CCE,CCE,18,0,Math.PI*2);cu.stroke();
-        cu.strokeStyle="#e8e4d8";
-        cu.beginPath();cu.arc(CCE,CCE,18,-Math.PI/2,-Math.PI/2+Math.PI*2*pr);cu.stroke();
+        cu.beginPath();cu.arc(0,0,30,a0,a0+SWE*pr);cu.stroke();
+        cu.globalAlpha=1;
+        cu.fillStyle="#ff9e2c";
+        cu.font="700 9px Consolas";cu.textAlign="center";cu.textBaseline="middle";
+        const rt="RELOADING",rsp=7,rw=(rt.length-1)*rsp;
+        for(let i=0;i<rt.length;i++)cu.fillText(rt[i],-rw/2+i*rsp,1);
+      }else{
+        cu.beginPath();cu.arc(0,0,30,a0,a0+SWE*ratio);cu.stroke();
+        cu.globalAlpha=1;
+        cu.fillStyle="#e8e4d8";
+        cu.font="700 20px Consolas";cu.textAlign="center";cu.textBaseline="middle";
+        cu.fillText(String(ammo.mag),0,-3);
+        cu.fillStyle="rgba(232,228,216,.55)";
+        cu.font="600 10px Consolas";
+        cu.fillText(String(ammo.res),0,14);
       }
-    }
-    const rl=Weapon.reloading;
+      cu.restore();
+    }    const rl=Weapon.reloading;
     $("rld").style.opacity=rl?1:0;
     if(rl)$("rldf").style.transform="scaleX("+clamp(Weapon.rt/R_T,0,1)+")";
     this.vig.style.opacity=Math.pow(1-P.hp/100,1.35)*0.9;
