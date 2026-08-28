@@ -325,7 +325,7 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
 <div id="vc"><i class="c"></i><i class="t"></i><i class="b"></i><i class="l"></i><i class="r"></i></div>
 <div id="fw"></div>
 <div id="vigwrap"></div>
-  <div id="vtag">ASHEN WARFARE · V4.1.1</div>
+  <div id="vtag">ASHEN WARFARE · V4.7.0</div>
 <div id="fbtag">备用视角 FALLBACK INPUT</div>
 <div id="hint"><div class="hbox"><div id="ht1">点击锁定鼠标</div><div id="ht2">CLICK TO LOCK MOUSE</div></div></div>
 <div id="mtip"></div>
@@ -390,7 +390,7 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
 </div>
 
 <script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+import * as THREE from "./three.module.js";
 /* 回归自检（需求A-6）逐条走查结果：
  1 移动/冲刺/滑铲/蹲跳 —— playerUpdate/Input零改动，pressed()仍读SET.bind，滑铲条件/自动接蹲/跳跃取消滑铲均保留 ✅
  2 全自动射击/后坐/散布 —— tryFire仅保留raiseT抬枪前置；后坐弹簧、永久上抬、bloom散布、准星开合原样 ✅
@@ -3733,18 +3733,31 @@ const VC={on:false,x:0,y:0,drag:null,hov:null,
       el.dispatchEvent(new MouseEvent("click",opts));
     }
   }};
-const Lock={pending:false,last:0,to:0,
+const Lock={pending:false,last:0,to:0,retryTo:0,lastUnlock:-1e9,
   request(){
     if(View.fallback)return;
+    if(Game.mode==="menu"||Pause.isOpen||player.dead)return;
     if(document.pointerLockElement===renderer.domElement)return;
+    clearTimeout(this.retryTo);
     const now=performance.now();
     if(this.pending||now-this.last<280)return;
     this.last=now;this.pending=true;
     let prom;
-    try{prom=renderer.domElement.requestPointerLock();}
-    catch(err){this.pending=false;this.fail();return;}
+    try{prom=renderer.domElement.requestPointerLock({unadjustedMovement:true});}
+    catch(err){
+      try{prom=renderer.domElement.requestPointerLock();}
+      catch(err2){this.pending=false;this.fail();return;}
+    }
     if(prom&&prom.then){
-      prom.then(()=>{this.pending=false;}).catch(()=>{this.pending=false;this.fail();});
+      prom.then(()=>{this.pending=false;}).catch(err=>{
+        this.pending=false;
+        if(err&&err.name==="NotSupportedError"){
+          try{const p2=renderer.domElement.requestPointerLock();if(p2&&p2.then)p2.catch(()=>this.fail());}
+          catch(e){this.fail();}
+          return;
+        }
+        this.fail();
+      });
     }
     clearTimeout(this.to);
     this.to=setTimeout(()=>{
@@ -3755,12 +3768,21 @@ const Lock={pending:false,last:0,to:0,
     },1600);
   },
   fail(){
+    // Chrome 在 Esc 退出锁定后 ~1.25s 内会拒绝重锁请求，此时自动等冷却结束再锁，不计入降级失败
+    const since=performance.now()-this.lastUnlock;
+    if(since>=0&&since<1350){
+      clearTimeout(this.retryTo);
+      Hint.msg="正在重新锁定鼠标…";
+      this.retryTo=setTimeout(()=>{this.last=0;this.request();},Math.max(60,1400-since));
+      return;
+    }
     View.failCount++;
     if(SET.lockFallback&&View.failCount>=2){enableFallback();return;}
     Hint.msg="浏览器拒绝了鼠标锁定，请再点一次";
   }};
 function enableFallback(){
   View.fallback=true;View.failCount=0;
+  clearTimeout(Lock.retryTo);
   Hint.msg="";
   $("fbtag").style.display="block";
   if(document.pointerLockElement){
@@ -3780,12 +3802,16 @@ document.addEventListener("pointerlockchange",()=>{
   if(l){
     Lock.pending=false;
     clearTimeout(Lock.to);
+    clearTimeout(Lock.retryTo);
     View.failCount=0;
     Hint.msg="";
-  }else if(View.suppressUnlock){
-    View.suppressUnlock=false;
-  }else if(Game.mode!=="menu"&&!View.fallback&&!Pause.isOpen&&!player.dead){
-    Pause.open();
+  }else{
+    Lock.lastUnlock=performance.now();
+    if(View.suppressUnlock){
+      View.suppressUnlock=false;
+    }else if(Game.mode!=="menu"&&!View.fallback&&!Pause.isOpen&&!player.dead){
+      Pause.open();
+    }
   }
 });
 
