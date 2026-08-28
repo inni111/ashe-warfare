@@ -4,10 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>使命召唤：灰烬战争 | CALL OF DUTY FAN TRIBUTE</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/bds-500.woff2") format("woff2")}
+@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/bds-700.woff2") format("woff2")}
+@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:800;font-display:swap;src:url("fonts/bds-800.woff2") format("woff2")}
+@font-face{font-family:"Rajdhani";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/rj-500.woff2") format("woff2")}
+@font-face{font-family:"Rajdhani";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/rj-600.woff2") format("woff2")}
+@font-face{font-family:"Rajdhani";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/rj-700.woff2") format("woff2")}
 :root{--bg:#0b0c0e;--tx:#e8e4d8;--dim:#8f897b;--dim2:#5d594e;--am:#ff9e2c;--rd:#e0483a;
 --line:rgba(232,228,216,.14);--fh:"Big Shoulders Display","Microsoft YaHei",sans-serif;
 --fn:"Rajdhani","Microsoft YaHei",sans-serif}
@@ -819,6 +822,10 @@ function buildPrimary(cw){
     gpart(gunRoot,B(0.052,0.03,0.1),gmMetal,0,0.055,-0.28);
     gpart(gunRoot,new THREE.CylinderGeometry(0.013,0.013,0.34,10),gmMetal,0,0.024,-0.6,Math.PI/2);
     gpart(gunRoot,new THREE.CylinderGeometry(0.018,0.014,0.06,10),gmMetal,0,0.024,-0.79,Math.PI/2);
+    gpart(gunRoot,new THREE.CylinderGeometry(0.009,0.009,0.2,8),gmMetal,0,0.055,-0.5,Math.PI/2);
+    gpart(gunRoot,B(0.024,0.018,0.04),gmMetal,0,0.052,-0.31);
+    gpart(gunRoot,B(0.026,0.012,0.03),gmMetal,0,0.064,-0.31);
+    gpart(gunRoot,B(0.05,0.006,0.3),gmMetal,0,0.06,-0.05);
     magMesh=gpart(gunRoot,B(0.046,0.15,0.08),gmMetal,MH.x,MH.y-0.01,-0.05,0.34);
     gpart(gunRoot,B(0.04,0.075,0.07),gmMetal,0,MH.y-0.108,-0.008,0.62);
     gpart(gunRoot,B(0.04,0.1,0.05),gmWood,0,-0.088,0.14,-0.3);
@@ -839,6 +846,11 @@ function buildPrimary(cw){
     gpart(gunRoot,B(0.036,0.05,0.03),gmGrip,0,0.0,0.32);
     const fs=new THREE.Mesh(new THREE.TorusGeometry(0.011,0.003,6,12),gmMetal);
     fs.position.set(0,0.058,-0.44);gunRoot.add(fs);
+    gpart(gunRoot,B(0.024,0.006,0.012),gmMetal,0,0.072,-0.44);
+    gpart(gunRoot,B(0.005,0.018,0.008),gmMetal,0.011,0.064,-0.44);
+    gpart(gunRoot,B(0.005,0.018,0.008),gmMetal,-0.011,0.064,-0.44);
+    gpart(gunRoot,new THREE.CylinderGeometry(0.012,0.012,0.028,10),gmMetal,0,0.058,0.09,Math.PI/2);
+    for(const vz of[-0.19,-0.25,-0.31])gpart(gunRoot,B(0.062,0.008,0.026),gmGrip,0,0.006,vz);
     chargeMesh=gpart(gunRoot,B(0.026,0.012,0.045),gmMetal,0.032,0.03,CH_Z);
     muzzleObj.position.set(0,0.012,-0.46);
   }else if(cw==="scar"){
@@ -853,37 +865,80 @@ function buildPrimary(cw){
     gpart(gunRoot,B(0.05,0.085,0.03),gmTan,0,0,0.42);
     gpart(gunRoot,B(0.014,0.05,0.05),gmMetal,0.035,0.02,0.21);
     gpart(gunRoot,B(0.034,0.03,0.06),gmMetal,0,0.078,0.02);
+    gpart(gunRoot,B(0.04,0.008,0.26),gmTan,0,-0.032,-0.3);
+    gpart(gunRoot,B(0.002,0.02,0.3),gmTan,0.03,0.012,-0.3);
+    gpart(gunRoot,B(0.002,0.02,0.3),gmTan,-0.03,0.012,-0.3);
+    gpart(gunRoot,B(0.04,0.02,0.09),gmTan,0,0.048,0.33);
     chargeMesh=gpart(gunRoot,B(0.014,0.016,0.05),gmMetal,0.038,0.048,CH_Z);
     muzzleObj.position.set(0,0.022,-0.84);
   }else{
-    gpart(gunRoot,B(0.062,0.085,0.46),gmMetal,0,0.01,-0.02);
-    gpart(gunRoot,B(0.03,0.02,0.36),gmMetal,0,0.058,-0.1);
-    gpart(gunRoot,B(0.058,0.062,0.3),gmPoly,0,0.004,-0.37);
-    gpart(gunRoot,new THREE.CylinderGeometry(0.014,0.014,0.36,10),gmMetal,0,0.018,-0.62,Math.PI/2);
-    gpart(gunRoot,B(0.032,0.032,0.08),gmMetal,0,0.018,-0.78);
-    if(attOf("grip")==="vert")gpart(gunRoot,B(0.03,0.085,0.034),gmGrip,0,-0.058,-0.37);
-    if(attOf("grip")==="laser"){
-      gpart(gunRoot,B(0.02,0.022,0.062),gmMetal,0.043,0.004,-0.33);
-      gpart(gunRoot,new THREE.CylinderGeometry(0.0065,0.0065,0.028,8),gmMetal,0.043,0.004,-0.366,Math.PI/2);
+    // ---- M4A1（重制版）：分段机匣 + 浮置护木 + 全长导轨 + 曲弹匣 ----
+    const gmDark2=new THREE.MeshStandardMaterial({color:0x101114,roughness:0.5,metalness:0.3});
+    gpart(gunRoot,B(0.06,0.05,0.26),gmMetal,0,0.024,-0.09);
+    gpart(gunRoot,B(0.056,0.055,0.20),gmMetal,0,-0.018,-0.045);
+    gpart(gunRoot,B(0.052,0.032,0.09),gmMetal,0,-0.05,-0.055,0.16);
+    gpart(gunRoot,B(0.002,0.026,0.075),gmDark2,0.0305,0.024,-0.055);
+    gpart(gunRoot,B(0.012,0.028,0.02),gmMetal,0.029,0.022,-0.004,0,0,-0.3);
+    gpart(gunRoot,new THREE.CylinderGeometry(0.006,0.006,0.014,8),gmMetal,0.029,0.03,0.028,Math.PI/2);
+    gpart(gunRoot,B(0.006,0.018,0.006),gmMetal,-0.028,-0.03,-0.005);
+    gpart(gunRoot,B(0.005,0.02,0.005),gmDark2,0.0285,-0.045,0.03);
+    gpart(gunRoot,B(0.054,0.056,0.30),gmPoly,0,0.02,-0.365);
+    for(const sz of[-0.30,-0.40,-0.50]){
+      gpart(gunRoot,B(0.002,0.013,0.055),gmDark2,0.0275,0.02,sz);
+      gpart(gunRoot,B(0.002,0.013,0.055),gmDark2,-0.0275,0.02,sz);
+      gpart(gunRoot,B(0.013,0.002,0.055),gmDark2,0,-0.0095,sz);
     }
-    const ext=attOf("mag")==="ext";
-    magMesh=gpart(gunRoot,B(0.05,ext?0.238:0.17,0.085),gmPoly,MAG_HOME.x,MAG_HOME.y-(ext?0.034:0),MAG_HOME.z,MAG_HOME.rx);
-    if(attOf("mag")==="fast")gpart(gunRoot,B(0.056,0.028,0.094),gmGrip,MAG_HOME.x,MAG_HOME.y-(ext?0.128:0.093),MAG_HOME.z,0.3);
-    gpart(gunRoot,B(0.042,0.11,0.055),gmGrip,0,-0.095,0.13,-0.3);
-    gpart(gunRoot,B(0.05,0.075,0.2),gmPoly,0,0,0.31);
-    gpart(gunRoot,B(0.056,0.095,0.03),gmGrip,0,0,0.425);
-    gpart(gunRoot,B(0.006,0.016,0.008),gmMetal,0.011,0.072,0.1);
-    gpart(gunRoot,B(0.006,0.016,0.008),gmMetal,-0.011,0.072,0.1);
-    gpart(gunRoot,B(0.028,0.007,0.008),gmMetal,0,0.081,0.1);
-    gpart(gunRoot,B(0.005,0.03,0.007),gmMetal,0,0.068,-0.56);
-    gpart(gunRoot,B(0.03,0.012,0.01),gmMetal,0,0.08,-0.56);
-    gpart(gunRoot,B(0.008,0.02,0.006),gmMetal,0,-0.052,0.06);
-    chargeMesh=gpart(gunRoot,B(0.014,0.018,0.05),gmMetal,0.036,0.045,CH_Z);
-    if(attOf("muzzle")==="fh")gpart(gunRoot,new THREE.CylinderGeometry(0.02,0.018,0.095,10),gmMetal,0,0.018,-0.865,Math.PI/2);
-    else if(attOf("muzzle")==="brake"){
+    gpart(gunRoot,new THREE.CylinderGeometry(0.031,0.031,0.028,12),gmMetal,0,0.02,-0.222,Math.PI/2);
+    gpart(gunRoot,new THREE.CylinderGeometry(0.0115,0.0115,0.24,10),gmMetal,0,0.02,-0.64,Math.PI/2);
+    gpart(gunRoot,B(0.02,0.024,0.03),gmMetal,0,0.022,-0.555);
+    gpart(gunRoot,B(0.005,0.05,0.006),gmMetal,0,0.056,-0.555);
+    gpart(gunRoot,B(0.004,0.026,0.006),gmMetal,0.008,0.064,-0.555);
+    gpart(gunRoot,B(0.004,0.026,0.006),gmMetal,-0.008,0.064,-0.555);
+    gpart(gunRoot,B(0.021,0.007,0.007),gmMetal,0,0.079,-0.555);
+    gpart(gunRoot,B(0.03,0.01,0.52),gmDark2,0,0.0525,-0.25);
+    for(let i=0;i<11;i++)gpart(gunRoot,B(0.032,0.004,0.02),gmMetal,0,0.0585,-0.5+i*0.045);
+    const mzAtt=attOf("muzzle");
+    if(!mzAtt){
+      gpart(gunRoot,new THREE.CylinderGeometry(0.016,0.017,0.07,10),gmDark2,0,0.02,-0.795,Math.PI/2);
+      gpart(gunRoot,new THREE.CylinderGeometry(0.0185,0.0185,0.012,10),gmMetal,0,0.02,-0.775,Math.PI/2);
+      gpart(gunRoot,new THREE.CylinderGeometry(0.0185,0.0185,0.012,10),gmMetal,0,0.02,-0.818,Math.PI/2);
+      muzzleObj.position.set(0,0.02,-0.845);
+    }else if(mzAtt==="fh"){
+      gpart(gunRoot,new THREE.CylinderGeometry(0.02,0.018,0.095,10),gmMetal,0,0.018,-0.865,Math.PI/2);
+      muzzleObj.position.set(0,0.018,-0.9);
+    }else{
       gpart(gunRoot,B(0.046,0.046,0.082),gmMetal,0,0.018,-0.85);
       gpart(gunRoot,B(0.052,0.011,0.02),gmGrip,0,0.018,-0.845);
       gpart(gunRoot,B(0.052,0.011,0.02),gmGrip,0,-0.004,-0.845);
+      muzzleObj.position.set(0,0.018,-0.9);
+    }
+    const ext=attOf("mag")==="ext";
+    magMesh=gpart(gunRoot,B(0.046,0.1,0.075),gmPoly,MAG_HOME.x,MAG_HOME.y+0.04,MAG_HOME.z+0.01,MAG_HOME.rx);
+    const magL2=new THREE.Mesh(B(0.044,0.095,0.07),gmPoly);magL2.position.set(0,-0.09,0.014);magL2.rotation.x=0.14;magMesh.add(magL2);
+    if(ext){const magL3=new THREE.Mesh(B(0.042,0.09,0.066),gmPoly);magL3.position.set(0,-0.175,0.028);magL3.rotation.x=0.14;magMesh.add(magL3);}
+    if(attOf("mag")==="fast")gpart(gunRoot,B(0.056,0.028,0.094),gmGrip,MAG_HOME.x,MAG_HOME.y-(ext?0.128:0.093),MAG_HOME.z,0.3);
+    gpart(gunRoot,B(0.04,0.105,0.05),gmGrip,0,-0.09,0.125,-0.26);
+    gpart(gunRoot,B(0.042,0.018,0.052),gmGrip,0,-0.133,0.152,-0.26);
+    gpart(gunRoot,B(0.028,0.006,0.07),gmMetal,0,-0.066,0.055);
+    gpart(gunRoot,B(0.028,0.018,0.006),gmMetal,0,-0.058,0.022);
+    gpart(gunRoot,B(0.008,0.022,0.005),gmDark2,0,-0.05,0.045,0.2);
+    gpart(gunRoot,new THREE.CylinderGeometry(0.02,0.02,0.16,10),gmMetal,0,0.02,0.25,Math.PI/2);
+    gpart(gunRoot,B(0.05,0.07,0.12),gmPoly,0,0.012,0.355);
+    gpart(gunRoot,B(0.054,0.095,0.026),gmGrip,0,0.005,0.425);
+    gpart(gunRoot,B(0.046,0.024,0.10),gmPoly,0,0.052,0.35);
+    gpart(gunRoot,B(0.052,0.05,0.06),gmPoly,0,-0.018,0.295);
+    chargeMesh=gpart(gunRoot,B(0.026,0.014,0.045),gmMetal,0.032,0.045,CH_Z);
+    gpart(gunRoot,B(0.012,0.01,0.016),gmMetal,0.046,0.045,CH_Z+0.014);
+    gpart(gunRoot,B(0.012,0.01,0.016),gmMetal,0.018,0.045,CH_Z-0.014);
+    if(attOf("optic")!=="holo"){
+      gpart(gunRoot,B(0.005,0.02,0.008),gmMetal,0.011,0.068,0.02);
+      gpart(gunRoot,B(0.005,0.02,0.008),gmMetal,-0.011,0.068,0.02);
+      gpart(gunRoot,B(0.027,0.006,0.008),gmMetal,0,0.08,0.02);
+    }
+    if(attOf("grip")==="vert")gpart(gunRoot,B(0.03,0.085,0.034),gmGrip,0,-0.058,-0.37);
+    if(attOf("grip")==="laser"){
+      gpart(gunRoot,B(0.02,0.022,0.062),gmMetal,0.032,0.004,-0.33);
+      gpart(gunRoot,new THREE.CylinderGeometry(0.0065,0.0065,0.028,8),gmMetal,0.032,0.004,-0.366,Math.PI/2);
     }
     if(attOf("optic")==="holo"){
       const hm=new THREE.MeshStandardMaterial({color:0x1c1e22,roughness:0.4,metalness:0.6});
@@ -912,7 +967,7 @@ function buildPrimary(cw){
       ch2.position.set(-0.0042,0.0928,-0.119);ch2.rotation.z=-0.45;gunRoot.add(ch2);
       const ch3=new THREE.Mesh(new THREE.PlaneGeometry(0.0016,0.005),lm);
       ch3.position.set(0.0042,0.0928,-0.119);ch3.rotation.z=0.45;gunRoot.add(ch3);
-    }    muzzleObj.position.set(0,0.018,-0.83);
+    }
   }
   gunRoot.add(muzzleObj);
 }function buildPistol(){
@@ -967,7 +1022,7 @@ function buildPrimary(cw){
   const am=sec?pistolMuzzle:muzzleObj;
   am.add(flashPlane);am.add(gunLight);
 }
-let laserLine=null,laserArr=null;
+let laserLine=null,laserArr=null,laserEnd=null,laserSkip=0;
 function updateLaser(){
   const on=Weapon.cur==="m4"&&attOf("grip")==="laser"&&!player.dead&&Game.mode!=="menu"
     &&!Pause.isOpen&&!Weapon.reloading&&Weapon.adsT<0.5&&Weapon.swT<=0;
@@ -982,14 +1037,21 @@ function updateLaser(){
   laserLine.visible=on;
   if(!on)return;
   gunRoot.updateWorldMatrix(true,false);
-  _va.set(0.043,0.004,-0.366);gunRoot.localToWorld(_va);
+  _va.set(0.032,0.004,-0.366);gunRoot.localToWorld(_va);
   _vb.copy(_va);
   muzzleObj.getWorldQuaternion(_vq);
   _vc.set(0,0,-1).applyQuaternion(_vq);
-  rc.set(_vb,_vc);rc.far=30;
-  const hits=rc.intersectObjects(World.wallMeshes,false);
-  rc.far=400;
-  const end=hits.length?hits[0].point:_vd.copy(_vb).addScaledVector(_vc,30);
+  // 激光落点 raycast 降频到每 3 帧一次（起点每帧跟随，肉眼无感）
+  laserSkip=(laserSkip+1)%3;
+  if(laserSkip===0){
+    rc.set(_vb,_vc);rc.far=30;
+    const hits=rc.intersectObjects(World.wallMeshes,false);
+    rc.far=400;
+    if(!laserEnd)laserEnd=new THREE.Vector3(0,0,-30);
+    if(hits.length)laserEnd.copy(hits[0].point);
+    else laserEnd.copy(_vb).addScaledVector(_vc,30);
+  }
+  const end=laserEnd;
   laserArr[0]=_vb.x;laserArr[1]=_vb.y;laserArr[2]=_vb.z;
   laserArr[3]=end.x;laserArr[4]=end.y;laserArr[5]=end.z;
   laserLine.geometry.attributes.position.needsUpdate=true;
@@ -1351,7 +1413,7 @@ const World={solids:[],wallMeshes:[],fires:[],covers:[],wps:[],sweeps:[],blinker
     }
     return g;
   },
-  lm(k,f){return this.M[k]||(this.M[k]=f());},
+  lm(k,f){const v=this.M[k]||(this.M[k]=f());v._pm=1;return v;},
   box(x,z,w,h,d,mat,opt={}){
     if(opt.hollow){this._hut(x,z,w,h,d,mat,opt);return null;}
     const ry=opt.ry||0;
@@ -1404,6 +1466,11 @@ const World={solids:[],wallMeshes:[],fires:[],covers:[],wps:[],sweeps:[],blinker
     if(this.group){
       this.group.traverse(o=>{if(o.geometry)o.geometry.dispose();});
       scene.remove(this.group);
+    }
+    // 只释放本地图专属材质（_pm 标记），共享材质跨图复用不能动
+    if(this.M)for(const k of Object.keys(this.M)){
+      const v=this.M[k];
+      if(v&&v.isMaterial&&v._pm){v.dispose();delete this.M[k];}
     }
     this.solids.length=0;this.wallMeshes.length=0;
     this.fires.length=0;this.sweeps=[];this.blinkers=[];
@@ -1496,6 +1563,7 @@ const World={solids:[],wallMeshes:[],fires:[],covers:[],wps:[],sweeps:[],blinker
     const flames=[];
     for(let k=0;k<3;k++){
       const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:flashTexture,color:k===2?0xffc060:0xff7a2a,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0.85}));
+      sp.material._pm=1;
       sp.position.set(x+rand(-0.5,0.5),1.1+k*0.35,z+rand(-0.5,0.5));
       sp.scale.setScalar(1.4-k*0.3);
       this.group.add(sp);flames.push(sp);
@@ -1567,6 +1635,67 @@ const World={solids:[],wallMeshes:[],fires:[],covers:[],wps:[],sweeps:[],blinker
     cone.renderOrder=2;lamp.add(cone);
     this.sweeps.push({p,c:cone,sp:spd,ph:rand(6)});
   },
+  jersey(x,z,ry){this.box(x,z,0.55,0.8,2.6,matConc,{ry});},
+  block(x,z,w,d,floors,mat,opt={}){
+    // 多层城市建筑：每层窗带（破窗为真实洞口，子弹/视线可穿过）+ 楼板 + 女儿墙；
+    // opt.door="n|s|e|w" 一层开门可进入室内；opt.stairs={side:"e"|"w",z} 外置双折梯上楼顶
+    const fh=opt.fh||3.0,t=0.35,wsill=1.0,wh=1.2;
+    const wall=(side,len,cx,cz,horiz)=>{
+      for(let f=0;f<floors;f++){
+        const y0=f*fh;
+        if(f===0&&opt.door===side){
+          const dw=1.7,dh=2.3,s=(len-dw)/2;
+          if(horiz){
+            this.box(cx-(dw/2+s/2),cz,s,dh,t,mat,{y:dh/2,noCover:1});
+            this.box(cx+(dw/2+s/2),cz,s,dh,t,mat,{y:dh/2,noCover:1});
+            this.box(cx,cz,dw,fh-dh,t,mat,{y:dh+(fh-dh)/2,noCover:1});
+          }else{
+            this.box(cx,cz-(dw/2+s/2),t,dh,s,mat,{y:dh/2,noCover:1});
+            this.box(cx,cz+(dw/2+s/2),t,dh,s,mat,{y:dh/2,noCover:1});
+            this.box(cx,cz,t,fh-dh,dw,mat,{y:dh+(fh-dh)/2,noCover:1});
+          }
+        }else{
+          const k=Math.max(1,Math.round(len/3.2)),sw=(len-k*1.15)/(k+1);
+          if(horiz){
+            this.box(cx,cz,len,wsill,t,mat,{y:y0+wsill/2});
+            for(let i=0;i<=k;i++)this.box(cx-len/2+sw/2+i*(sw+1.15),cz,sw,wh,t,mat,{y:y0+wsill+wh/2,noCover:1});
+            this.box(cx,cz,len,fh-wsill-wh,t,mat,{y:y0+wsill+wh+(fh-wsill-wh)/2,noCover:1});
+          }else{
+            this.box(cx,cz,t,wsill,len,mat,{y:y0+wsill/2});
+            for(let i=0;i<=k;i++)this.box(cx,cz-len/2+sw/2+i*(sw+1.15),t,wh,len,mat,{y:y0+wsill+wh/2,noCover:1});
+            this.box(cx,cz,t,fh-wsill-wh,len,mat,{y:y0+wsill+wh+(fh-wsill-wh)/2,noCover:1});
+          }
+        }
+      }
+    };
+    wall("n",w,x,z-d/2+t/2,true);
+    wall("s",w,x,z+d/2-t/2,true);
+    wall("w",d,x-w/2+t/2,z,false);
+    wall("e",d,x+w/2-t/2,z,false);
+    for(let f=1;f<floors;f++)this.box(x,z,w-0.3,0.24,d-0.3,matConcDark,{y:f*fh-0.12,noCover:1});
+    const top=floors*fh+0.26,par=0.62;
+    this.box(x,z,w+0.3,0.26,d+0.3,matConcDark,{y:top-0.13,noCover:1});
+    const pw=(side,len,cx,cz,horiz)=>{
+      if(opt.stairs&&opt.stairs.side===side)return;
+      if(horiz)this.box(cx,cz,len,par,0.22,mat,{y:top+par/2,noCover:1});
+      else this.box(cx,cz,0.22,par,len,mat,{y:top+par/2,noCover:1});
+    };
+    pw("n",w+0.3,x,z-d/2-0.04,true);pw("s",w+0.3,x,z+d/2+0.04,true);
+    pw("w",d+0.3,x-w/2-0.04,z,false);pw("e",d+0.3,x+w/2+0.04,z,false);
+    if(opt.stairs){
+      const steps=Math.ceil((floors*fh+0.26)/0.35),half=Math.ceil(steps/2),sh=0.35,sd=0.62;
+      const sgn=opt.stairs.side==="e"?1:-1;
+      const sx=x+sgn*(w/2+0.42),ox=x+sgn*(w/2+1.92);
+      const z0=opt.stairs.z!==undefined?opt.stairs.z:z+half*sd/2;
+      for(let i=0;i<half;i++){const h=sh*(i+1);
+        this.box(ox,z0-sd*i,0.9,h,sd,matConcDark,{y:h/2,noCover:1});}
+      const H1=half*sh;
+      this.box((sx+ox)/2,z0-sd*(half-1)-0.75,0.9+1.5,H1+sh,1.4,matConcDark,{y:(H1+sh)/2,noCover:1});
+      const rem=steps-half;
+      for(let j=0;j<rem;j++){const h=H1+sh*(j+1);
+        this.box(sx,z0-sd*(half-1)-1.45+sd*(j+1),0.9,h,sd,matConcDark,{y:h/2,noCover:1});}
+    }
+  },
   load(key){
     const M=MAPS[key];this.key=key;this.M=M;
     this.clear();
@@ -1579,7 +1708,7 @@ const World={solids:[],wallMeshes:[],fires:[],covers:[],wps:[],sweeps:[],blinker
     renderer.toneMappingExposure=M.exp;
     skyU.tc.value.setHex(M.skTC);skyU.mc.value.setHex(M.skMC);skyU.hc.value.setHex(M.skHC);
     skyU.sc.value.setHex(M.skSC);skyU.sd.value.set(M.sd[0],M.sd[1],M.sd[2]).normalize();
-    if(!M._gm)M._gm=new THREE.MeshStandardMaterial({map:groundTex,color:M.tint,roughness:1});
+    if(!M._gm){M._gm=new THREE.MeshStandardMaterial({map:groundTex,color:M.tint,roughness:1});M._gm._pm=1;}
     this.ground=new THREE.Mesh(new THREE.PlaneGeometry(101,101),M._gm);
     this.ground.rotation.x=-Math.PI/2;this.ground.receiveShadow=true;
     this.group.add(this.ground);
@@ -1602,50 +1731,50 @@ rustout:{
  skTC:0x232a47,skMC:0x6e4433,skHC:0xd98a4a,skSC:0xffd9a0,sd:[70,16,-55],
  spawns:{ally:[[-20,44],[-10,45],[0,43],[10,45],[20,44],[-30,42]],
          axis:[[-20,-44],[-10,-45],[0,-43],[10,-45],[20,-44],[30,-42]]},
- wps:[[0,34],[-12,26],[12,26],[0,18],[-20,15],[20,15],[-6,7],[7,6],[-18,-2],[18,-2],[0,-8],[-12,-14],[12,-14],[0,-22],[-24,-26],[22,-26],[-32,4],[32,4],[-34,-18],[34,-18],[-40,30],[40,28]],
+ wps:[[0,34],[-12,26],[12,26],[0,18],[-20,15],[20,15],[-6,7],[7,6],[-8,-2],[18,-2],[0,-8],[-12,-14],[10,-20],[0,-22],[-24,-26],[22,-26],[-35,4],[32,4],[-34,-18],[34,-18],[-40,30],[40,28],[0,28],[0,2],[0,-14]],
  build(W){
-  W.box(-14,-6,2.44,2.6,6.1,matContA);
-  W.box(-14,0.7,2.44,2.6,6.1,matContB);
-  W.box(13,-4,6.1,2.6,2.44,matContC);
-  W.box(16.8,1.9,2.44,2.6,6.1,matContA);
-  W.box(0,-17,6.1,2.6,2.44,matContB);
-  W.box(-24,10,2.44,2.6,6.1,matContC);
-  W.box(23,-14,6.1,2.6,2.44,matContA);
-  W.box(-8.5,-2.7,4.6,1.25,0.5,matConc);
-  W.box(-20,-19,5,1.3,0.55,matConc);
-  W.box(21,-17,5,1.3,0.55,matConc);
-  W.box(0,-27,6,1.3,0.6,matConc);
-  W.box(-11,19,4.4,1.25,0.5,matConc);
-  W.box(12,17,4.4,1.25,0.5,matConc);
-  W.box(-30,-6,4.4,1.25,0.5,matConc);
-  W.box(29,8,4.4,1.25,0.5,matConc);
-  W.box(-5,9,3.2,0.95,0.75,matSand);
-  W.box(5,9,3.2,0.95,0.75,matSand);
-  W.box(-19,4,3.2,0.95,0.75,matSand,{ry:Math.PI/2});
-  W.box(18,-10,3.2,0.95,0.75,matSand,{ry:Math.PI/2});
-  W.box(8,-22,3.2,0.95,0.75,matSand);
-  W.box(-7,-24,3.2,0.95,0.75,matSand);
-  W.box(-16,13,1.5,1.5,1.5,matWood,{ry:0.4});
-  W.box(17,11,1.5,1.5,1.5,matWood,{ry:-0.3});
-  W.box(6,-6.5,1.5,1.5,1.5,matWood,{ry:0.7});
-  W.box(-7,-21,1.5,1.5,1.5,matWood,{ry:0.2});
-  W.box(2.4,-14.4,1.5,1.5,1.5,matWood,{ry:-0.5});
-  W.box(2.4,-14.4,1.4,1.3,1.4,matWood,{y:2.15,ry:0.3,collide:false});
-  W.box(-2.2,-14,1.5,1.5,1.5,matWood,{ry:0.9});
-  W.box(24.5,3,1.5,1.5,1.5,matWood,{ry:0.1});
-  W.box(-24.5,-14,1.5,1.5,1.5,matWood,{ry:-0.6});
-  W.barrel(-12.4,-2.2);W.barrel(-11.6,-2.9);W.barrel(14.8,-1.6);W.barrel(15.6,-2.3);
-  W.barrel(3.2,20.4);W.barrel(4.1,20.9);W.barrel(3.6,19.6);
+  const brickA=W.lm("rbA",()=>new THREE.MeshStandardMaterial({color:0x7a4030,roughness:0.95}));
+  const brickB=W.lm("rbB",()=>new THREE.MeshStandardMaterial({color:0x6d5f52,roughness:0.95}));
+  const brickC=W.lm("rbC",()=>new THREE.MeshStandardMaterial({color:0x54514a,roughness:0.95}));
+  const plaster=W.lm("rbD",()=>new THREE.MeshStandardMaterial({color:0x9a8a74,roughness:0.95}));
+  // ===== 中央大街（x∈[-4,4]）：路缘 + 隔离墩 + 街车 =====
+  W.box(-4.6,0,1.4,0.12,96,matConc,{y:0.06,noCover:1,collide:false});
+  W.box(4.6,0,1.4,0.12,96,matConc,{y:0.06,noCover:1,collide:false});
+  W.jersey(1.8,-12,0);W.jersey(-1.8,-4,0);W.jersey(1.8,4,0);W.jersey(-1.8,12,0);
+  W.car(0,-18,0.12,W.lm("c1",()=>new THREE.MeshStandardMaterial({color:0x7a4430,roughness:0.7,metalness:0.35})));
+  W.car(0.4,9,-0.08,W.lm("c2",()=>new THREE.MeshStandardMaterial({color:0x44503a,roughness:0.7,metalness:0.35})));
+  W.wreck(1.6,22,0.4);W.wreck(-2,-27,-0.5);
+  // ===== 西侧街区：三栋砖楼（三层的带外置双折梯可上楼顶）=====
+  W.block(-16,-1,13,10,3,brickA,{door:"e",stairs:{side:"e",z:2}});
+  W.block(-17,17,11,9,2,brickB,{door:"s"});
+  W.block(-15,-19,12,9,2,brickC,{door:"e"});
+  // 沿街雨棚与空调外机
+  W.box(-9.4,3.5,2.2,0.14,3.4,plaster,{y:2.5,ry:0.18,noCover:1,collide:false});
+  W.box(-9.4,-4.5,2.2,0.14,3.0,plaster,{y:2.5,ry:-0.15,noCover:1,collide:false});
+  W.box(-9.2,-0.2,0.4,0.5,0.6,matConcDark,{y:4.1,collide:false,noCover:1});
+  W.box(-9.2,6.0,0.4,0.5,0.6,matConcDark,{y:4.1,collide:false,noCover:1});
+  // ===== 东侧厂房（可进入）+ 集装箱阵 =====
+  W.block(15,8,12,11,2,brickB,{door:"w"});
+  W.box(13,-14,6.1,2.6,2.44,matContA);
+  W.box(13,-14,6.1,2.6,2.44,matContB,{y:3.9});
+  W.box(20,-16,2.44,2.6,6.1,matContC);
+  W.box(26,-10,6.1,2.6,2.44,matContB);
+  W.box(-24,-30,2.44,2.6,6.1,matContA);
+  W.box(24.5,28,6.1,2.6,2.44,matContC);
+  W.box(-30,4,6.1,2.6,2.44,matContA);
+  // ===== 掩体与残骸 =====
+  W.sand(-8,-9,3.4,Math.PI/2);W.sand(8,-11,3.4,0);W.sand(-10,10,3.4,0);
+  W.sand(9,16,3.4,Math.PI/2);W.sand(-6,28,3.4,0);W.sand(18,-3,3.4,0);
+  W.box(-11,2,1.5,1.5,1.5,matWood,{ry:0.4});W.box(11,-2,1.5,1.5,1.5,matWood,{ry:-0.5});
+  W.box(11,-2,1.4,1.3,1.4,matWood,{y:2.15,ry:0.3,collide:false});
+  W.barrel(-7,-3);W.barrel(-6.2,-3.7);W.barrel(7,12);W.barrel(7.8,12.7);
+  W.barrel(-12.5,24);W.barrel(20,-19);W.barrel(-20,-12);
   W.rubble();W.craters();
-  W.car(-6,16,0.4,W.lm("c1",()=>new THREE.MeshStandardMaterial({color:0x7a4430,roughness:0.7,metalness:0.35})));
-  W.car(12,29,-0.8,W.lm("c2",()=>new THREE.MeshStandardMaterial({color:0x44503a,roughness:0.7,metalness:0.35})));
-  W.car(-20,-4,1.2,W.lm("c3",()=>new THREE.MeshStandardMaterial({color:0x33475a,roughness:0.7,metalness:0.35})));
-  W.car(20,20,0.2,W.lm("c1"));
-  W.car(-34,-8,-0.4,W.lm("c2"));
-  W.car(33,-33,0.9,W.lm("c3"));
-  W.wreck(-36,-34,0.6);W.wreck(37,-27,-0.4);W.wreck(-27,31,1.2);W.wreck(30,26,0.2);
-  W.building(26,14,10,7,3.2);
-  W.building(-28,24,8,6,3);
+  W.car(-24,10,1.2,W.lm("c3",()=>new THREE.MeshStandardMaterial({color:0x33475a,roughness:0.7,metalness:0.35})));
+  W.car(24,-26,0.4,W.lm("c1"));
+  W.wreck(-30,-12,1.2);W.wreck(30,20,0.3);
+  W.pole(-6,-30);W.pole(7,30);W.pole(-38,38);
+  W.searchlight(30,32,0.5);
  }
 },
 dustout:{
@@ -1675,6 +1804,9 @@ dustout:{
   }
   const rocks=[[-12,10,1.6],[14,8,2],[-18,-6,2.2],[8,-16,1.4],[22,-4,1.8],[-6,22,1.5],[-28,14,2.4],[18,18,1.7],[-14,-24,2],[4,30,1.6]];
   for(const r of rocks)W.rock(r[0],r[1],r[2]);
+  W.block(-34,-27,9,7,1,matConc,{door:"n"});
+  W.block(34,27,9,7,1,matConc,{door:"s"});
+  W.tower(-32,32);
   W.box(-38,-10,1.5,1.5,1.5,matWood,{ry:0.4});
   W.box(-37,-11.6,1.4,1.3,1.4,matWood,{y:2.1,collide:false});
   W.box(38,10,1.5,1.5,1.5,matWood,{ry:-0.3});
@@ -1770,10 +1902,10 @@ crash:{
   }
   W.box(0,12,7.5,2.5,2.3,cA,{y:1.25,ry:0.12});
   W.box(4.4,14.2,1.5,1.5,1.5,matWood,{ry:-0.3});
-  W.box(-19,20,22,5,6,matConcDark);
-  W.box(19,20,22,5,6,matConcDark);
-  W.box(-19,4,22,5,6,matConcDark);
-  W.box(19,4,22,5,6,matConcDark);
+  W.block(-20,20,12,9,3,matConc,{door:"e"});
+  W.block(20,20,12,9,3,matConc,{door:"w"});
+  W.block(-20,4,12,9,2,matConc,{door:"e"});
+  W.block(20,4,12,9,2,matConc,{door:"w"});
   W.car(-11,15.5,0.15,W.lm("cv1",()=>new THREE.MeshStandardMaterial({color:0x7a4430,roughness:0.7,metalness:0.35})));
   W.car(11,15.5,-0.15,W.lm("cv2",()=>new THREE.MeshStandardMaterial({color:0x44503a,roughness:0.7,metalness:0.35})));
   W.car(-11,8.5,-0.1,W.lm("cv2"));W.car(11,8.5,0.12,W.lm("cv1"));
@@ -1847,9 +1979,11 @@ crossfire:{
   W.box(0,-39,78,3.4,1,matConcDark,{noCover:1});W.box(0,39,78,3.4,1,matConcDark,{noCover:1});
   W.box(-39,0,1,3.4,78,matConcDark,{noCover:1});W.box(39,0,1,3.4,78,matConcDark,{noCover:1});
   W.car(0,-14,0.15,cA);W.car(0,0,-0.2,cB);W.car(0,14,0.1,cA);
-  for(const sx of[12,-12]){
-    W.box(sx,-31,8,5,10,shop);W.box(sx,-12,8,5,12,shop);
-    W.box(sx,12,8,5,12,shop);W.box(sx,31,8,5,10,shop);
+  for(const sx of[13,-13]){
+    W.block(sx,-28,9,8,2,shop,{door:"s"});
+    W.block(sx,-10,9,9,3,shop,{door:"s"});
+    W.block(sx,12,9,9,2,shop,{door:"n"});
+    W.block(sx,30,9,8,3,shop,{door:"n"});
   }
   for(const sz of[-16,-8,0,8,16]){
     W.box(6.5,sz,0.55,3.2,0.55,matConcDark);W.box(-6.5,sz,0.55,3.2,0.55,matConcDark);
@@ -3550,6 +3684,10 @@ const HUD={
     if(flashWhiteT>0)flashWhiteT=Math.max(0,flashWhiteT-dt);
     const fo=flashWhiteT>0?clamp(flashWhiteT/1.5,0,1):0;
     if(fo!==this.lastFW){this.lastFW=fo;this.fwEl.style.opacity=fo;}
+    // 2D canvas（准星/罗盘/小地图/受击弧）降到 30fps 重绘，上面的 DOM 状态仍每帧 diff
+    this.hudAcc=(this.hudAcc||0)+dt;
+    if(this.hudAcc<0.0333)return;
+    this.hudAcc=0;
     const cu=this.chc,CSZ=160,CCE=CSZ/2;
     cu.clearRect(0,0,CSZ,CSZ);
     if(Game.mode!=="menu"&&!P.dead){
@@ -4268,18 +4406,21 @@ function updateCursorClass(){
   }
 }
 const clock=new THREE.Clock();
-let T=0,menuT=0;
+let T=0,menuT=0,prLow=false;
 function animate(){
   requestAnimationFrame(animate);
   const dt=Math.min(clock.getDelta(),0.05);
   if(Game.mode==="menu"){
+    // 主菜单常驻时降分辨率省 GPU（进对局一次性恢复）
+    if(!prLow){prLow=true;renderer.setPixelRatio(1);}
     menuT+=dt;
     camera.position.set(Math.sin(menuT*0.045)*34,6.5+Math.sin(menuT*0.021)*1.2,Math.cos(menuT*0.045)*34);
     camera.lookAt(Math.sin(menuT*0.045+2.2)*6,1.6,Math.cos(menuT*0.045+2.2)*6);
     T+=dt;
     Fx.update(dt,menuT);
-  }else if(!Pause.isOpen){
-    sim(dt);
+  }else{
+    if(prLow){prLow=false;renderer.setPixelRatio(Math.min(devicePixelRatio,2));}
+    if(!Pause.isOpen)sim(dt);
   }
   Hint.refresh();
   updateCursorClass();
