@@ -91,7 +91,6 @@ body.playing #hud{opacity:1}
 #ch .lf{height:2px;width:8px;top:-1px;right:var(--g)}
 #ch .rt{height:2px;width:8px;top:-1px;left:var(--g)}
 #hm{position:absolute;left:50%;top:50%;opacity:0}
-#chud{position:absolute;left:50%;top:50%;width:160px;height:160px;margin:-80px 0 0 -80px;pointer-events:none}
 #hm.on{opacity:1;animation:hmz .14s}
 @keyframes hmz{from{transform:scale(1.28)}to{transform:scale(1)}}
 #hm i{position:absolute;width:2.5px;height:11px;background:#fff;box-shadow:0 0 4px rgba(0,0,0,.85)}
@@ -309,7 +308,6 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
   <div id="hp"><div id="hpnum">100</div><div id="hpbar"><div id="hpfill"></div></div></div>
   <div id="mini"><canvas id="cmini" width="158" height="158"></canvas><div id="objline"></div></div>
   <div id="ch"><i class="dot"></i><i class="t"></i><i class="b"></i><i class="lf"></i><i class="rt"></i></div>
-  <canvas id="chud" width="160" height="160"></canvas>
   <div id="hm"><i></i><i></i><i></i><i></i></div>
   <div id="objban"><span class="bl"></span><span id="obtxt"></span><span class="bl"></span></div>
   <div id="eqp">
@@ -364,6 +362,7 @@ border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
     <div class="ph"><span>按键绑定</span><span class="phe">KEYBINDS</span></div>
     <div id="binds"></div>
     <div class="ph"><span>画质与输入</span><span class="phe">GRAPHICS / INPUT</span></div>
+    <div class="prow"><span>画面亮度</span><span><input type="range" id="s-bri" min="70" max="150" step="5"><span class="val" id="v-bri"></span></span></div>
     <div class="prow"><span>动态阴影</span><span class="tgl" id="q-shadow">开</span></div>
     <div class="prow"><span>粒子密度</span><span class="tgl" id="q-part">高</span></div>
     <div class="prow"><span>锁定失败时备用视角</span><span class="tgl" id="q-lkfb">开</span></div>
@@ -437,7 +436,7 @@ window.addEventListener("unhandledrejection",e=>{
   showErr("PROMISE "+((r&&r.message)||r));
 });
 
-const DEF_SET={sens:1,fov:75,vol:0.5,musvol:0.6,shadow:true,partHi:true,lockFallback:true,
+const DEF_SET={sens:1,fov:75,vol:0.5,musvol:0.6,bright:1,shadow:true,partHi:true,lockFallback:true,
   bind:{fwd:"KeyW",back:"KeyS",left:"KeyA",right:"KeyD",sprint:"ShiftLeft",crouch:"KeyC",jump:"Space",reload:"KeyR",frag:"KeyG",flash:"KeyT",inspect:"KeyF",weapon:"Digit2"},
   loadout:{primary:"m4",secondary:false,attach:{muzzle:null,mag:null,grip:null,optic:null},perks:[],frag:true,flash:true}};
 let SET;
@@ -1376,11 +1375,61 @@ const groundTex=makeTex(256,(g,s)=>{
 });
 groundTex.repeat.set(18,18);
 const stripesTex=makeTex(128,(g,s)=>{
-  for(let x=0;x<s;x+=16){g.fillStyle="#c2c2c2";g.fillRect(x,0,8,s);g.fillStyle="#8f8f8f";g.fillRect(x+8,0,8,s);}
-  speckle(g,s,500,"rgba(70,70,70,.5)","rgba(230,230,230,.4)",3);
+  for(let x=0;x<s;x+=16){
+    g.fillStyle="#b4bcc2";g.fillRect(x,0,7,s);
+    g.fillStyle="#7e868d";g.fillRect(x+7,0,5,s);
+    g.fillStyle="#5a6167";g.fillRect(x+12,0,4,s);
+  }
+  speckle(g,s,700,"rgba(120,70,40,.25)","rgba(230,235,240,.2)",2);
+  noiseStains(g,s,10,.12);
 });
+stripesTex.userData.K=2.5;
 const metalTex=makeTex(128,(g,s)=>{g.fillStyle="#b9b9b9";g.fillRect(0,0,s,s);speckle(g,s,1200,"#8d8d8d","#d6d6d6",2);});
 const sandbagTex=makeTex(128,(g,s)=>{g.fillStyle="#b3a67f";g.fillRect(0,0,s,s);speckle(g,s,1400,"#968a63","#c8bc94",3);});
+function noiseStains(g,s,n,a){for(let i=0;i<n;i++){g.fillStyle="rgba(20,18,14,"+rand(.04,a)+")";g.beginPath();g.arc(Math.random()*s,Math.random()*s,rand(6,26),0,7);g.fill();}}
+function concTexMake(base){return makeTex(256,(g,s)=>{
+  g.fillStyle=base;g.fillRect(0,0,s,s);
+  speckle(g,s,2200,"rgba(0,0,0,.10)","rgba(255,255,255,.07)",3);
+  noiseStains(g,s,26,.10);
+  g.strokeStyle="rgba(0,0,0,.09)";g.lineWidth=1;
+  for(let y=32;y<s;y+=64){g.beginPath();g.moveTo(0,y);g.lineTo(s,y);g.stroke();}
+  for(let i=0;i<5;i++){g.strokeStyle="rgba(0,0,0,.12)";g.lineWidth=1;g.beginPath();
+    let x=Math.random()*s,y=Math.random()*s;g.moveTo(x,y);
+    for(let k=0;k<4;k++){x+=rand(-14,14);y+=rand(6,20);g.lineTo(x,y);}g.stroke();}
+});}
+const concTex=concTexMake("#96938a");concTex.userData.K=3;
+const concDarkTex=concTexMake("#6f6d66");concDarkTex.userData.K=3;
+const brickTex=makeTex(256,(g,s)=>{
+  g.fillStyle="#a89e90";g.fillRect(0,0,s,s);
+  const bh=16,bw=42;
+  for(let r=0;r<s/bh;r++){
+    const off=(r%2)*bw/2;
+    for(let cx=-1;cx<s/bw+1;cx++){
+      const l=rand(-14,14);
+      g.fillStyle="rgb("+Math.round(138+l)+","+Math.round(74+l*0.8)+","+Math.round(56+l*0.7)+")";
+      g.fillRect(off+cx*bw+1.5,r*bh+1.5,bw-3,bh-3);
+      if(Math.random()<.12){g.fillStyle="rgba(30,20,14,.35)";g.fillRect(off+cx*bw+1.5,r*bh+1.5,bw-3,bh-3);}
+    }
+  }
+  speckle(g,s,900,"rgba(0,0,0,.08)","rgba(255,255,255,.05)",2);
+  noiseStains(g,s,18,.12);
+});
+brickTex.userData.K=2.2;
+const woodTex=makeTex(256,(g,s)=>{
+  g.fillStyle="#7c5e36";g.fillRect(0,0,s,s);
+  for(let y=0;y<s;y+=32){
+    const l=rand(-16,16);
+    g.fillStyle="rgb("+Math.round(124+l)+","+Math.round(94+l)+","+Math.round(54+l)+")";
+    g.fillRect(0,y+1,s,30);
+    g.strokeStyle="rgba(60,40,18,.35)";g.lineWidth=1;
+    for(let k=0;k<5;k++){g.beginPath();const yy=y+rand(4,28);g.moveTo(0,yy);
+      for(let x=0;x<=s;x+=32)g.lineTo(x,yy+rand(-2,2));g.stroke();}
+    g.fillStyle="rgba(30,20,10,.55)";g.fillRect(0,y,s,2);
+    if(Math.random()<.5){g.fillStyle="rgba(50,32,14,.5)";g.beginPath();g.arc(rand(20,s-20),y+16,rand(2,4),0,7);g.fill();}
+  }
+  speckle(g,s,500,"rgba(0,0,0,.06)","rgba(255,255,255,.04)",2);
+});
+woodTex.userData.K=1.8;
 
 function fxTex(fn){const c=document.createElement("canvas");c.width=c.height=64;fn(c.getContext("2d"));return new THREE.CanvasTexture(c);}
 const flashTexture=fxTex(g=>{const gr=g.createRadialGradient(32,32,2,32,32,30);
@@ -1399,13 +1448,13 @@ const holeTexture=fxTex(g=>{const gr=g.createRadialGradient(32,32,2,32,32,26);
   g.fillStyle=gr;g.fillRect(0,0,64,64);});
 
 const matGround=new THREE.MeshStandardMaterial({map:groundTex,roughness:1,metalness:0});
-const matConc=new THREE.MeshStandardMaterial({color:0x6d6a60,roughness:0.95});
-const matConcDark=new THREE.MeshStandardMaterial({color:0x54514a,roughness:0.95});
+const matConc=new THREE.MeshStandardMaterial({map:concTex,color:0xffffff,roughness:0.95});
+const matConcDark=new THREE.MeshStandardMaterial({map:concDarkTex,color:0xffffff,roughness:0.95});
 const matContA=new THREE.MeshStandardMaterial({map:stripesTex,color:0x9c4630,roughness:0.72,metalness:0.3});
 const matContB=new THREE.MeshStandardMaterial({map:stripesTex,color:0x33607a,roughness:0.72,metalness:0.3});
 const matContC=new THREE.MeshStandardMaterial({map:stripesTex,color:0x5d6c40,roughness:0.72,metalness:0.3});
 const matSand=new THREE.MeshStandardMaterial({map:sandbagTex,color:0xcabfa0,roughness:1});
-const matWood=new THREE.MeshStandardMaterial({color:0x6b5636,roughness:0.9});
+const matWood=new THREE.MeshStandardMaterial({map:woodTex,color:0xffffff,roughness:0.9});
 const matBarrel=new THREE.MeshStandardMaterial({map:metalTex,color:0x59604f,roughness:0.6,metalness:0.45});
 const matChar=new THREE.MeshStandardMaterial({color:0x17140f,roughness:1});
 
@@ -1433,7 +1482,17 @@ const World={solids:[],wallMeshes:[],fires:[],covers:[],wps:[],sweeps:[],blinker
   box(x,z,w,h,d,mat,opt={}){
     if(opt.hollow){this._hut(x,z,w,h,d,mat,opt);return null;}
     const ry=opt.ry||0;
-    const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+    const geo=new THREE.BoxGeometry(w,h,d);
+    if(mat.map){ // 世界尺寸UV：1格贴图=K米，任意大小墙面纹理密度一致
+      const uv=geo.attributes.uv,K=mat.map.userData.K||2.4;
+      const dim=[[d,h],[d,h],[w,d],[w,d],[w,h],[w,h]];
+      for(let f=0;f<6;f++)for(let v=0;v<4;v++){
+        const i=f*4+v;
+        uv.setXY(i,uv.getX(i)*dim[f][0]/K,uv.getY(i)*dim[f][1]/K);
+      }
+      uv.needsUpdate=true;
+    }
+    const m=new THREE.Mesh(geo,mat);
     const cy=(opt.y!==undefined?opt.y:h/2);
     m.position.set(x,cy,z);
     m.rotation.y=ry;
@@ -1721,7 +1780,7 @@ const World={solids:[],wallMeshes:[],fires:[],covers:[],wps:[],sweeps:[],blinker
     sun.color.setHex(M.sunC);sun.intensity=M.sunI;sun.position.set(M.sunP[0],M.sunP[1],M.sunP[2]);
     hemi.color.setHex(M.hS);hemi.groundColor.setHex(M.hG);hemi.intensity=M.hI;
     amb.color.setHex(M.aC);amb.intensity=M.aI;
-    renderer.toneMappingExposure=M.exp;
+    renderer.toneMappingExposure=M.exp*(SET.bright||1);
     skyU.tc.value.setHex(M.skTC);skyU.mc.value.setHex(M.skMC);skyU.hc.value.setHex(M.skHC);
     skyU.sc.value.setHex(M.skSC);skyU.sd.value.set(M.sd[0],M.sd[1],M.sd[2]).normalize();
     if(!M._gm){M._gm=new THREE.MeshStandardMaterial({map:groundTex,color:M.tint,roughness:1});M._gm._pm=1;}
@@ -1741,18 +1800,18 @@ const MAPS={
 rustout:{
  name:"锈带废城",en:"RUSTOUT",linkD:24,tag:"100x100 · 标准",
  sw:["#7a3a28","#8a7080","#4a4438"],
- fogC:0x4a3629,fogD:0.0105,bgC:0x43302a,exp:1.06,tint:0xffffff,
- sunC:0xffa050,sunI:2.3,sunP:[70,16,-55],
- hS:0x8a7080,hG:0x3a2a1e,hI:0.55,aC:0x33291f,aI:0.6,
- skTC:0x232a47,skMC:0x6e4433,skHC:0xd98a4a,skSC:0xffd9a0,sd:[70,16,-55],
+ fogC:0xa8b4c0,fogD:0.0082,bgC:0xb6c4d4,exp:1.34,tint:0xf0ece2,
+ sunC:0xfff2dc,sunI:3.2,sunP:[70,52,-40],
+ hS:0x9db4cc,hG:0x5a5248,hI:1.05,aC:0x96a0ac,aI:0.9,
+ skTC:0x2e5cc8,skMC:0x7ab0e8,skHC:0xdceaf8,skSC:0xffffff,sd:[70,52,-40],
  spawns:{ally:[[-20,44],[-10,45],[0,43],[10,45],[20,44],[-30,42]],
          axis:[[-20,-44],[-10,-45],[0,-43],[10,-45],[20,-44],[30,-42]]},
  wps:[[0,34],[-12,26],[12,26],[0,18],[-20,15],[20,15],[-6,7],[7,6],[-8,-2],[18,-2],[0,-8],[-12,-14],[10,-20],[0,-22],[-24,-26],[22,-26],[-35,4],[32,4],[-34,-18],[34,-18],[-40,30],[40,28],[0,28],[0,2],[0,-14]],
  build(W){
-  const brickA=W.lm("rbA",()=>new THREE.MeshStandardMaterial({color:0x7a4030,roughness:0.95}));
-  const brickB=W.lm("rbB",()=>new THREE.MeshStandardMaterial({color:0x6d5f52,roughness:0.95}));
-  const brickC=W.lm("rbC",()=>new THREE.MeshStandardMaterial({color:0x54514a,roughness:0.95}));
-  const plaster=W.lm("rbD",()=>new THREE.MeshStandardMaterial({color:0x9a8a74,roughness:0.95}));
+  const brickA=W.lm("rbA",()=>new THREE.MeshStandardMaterial({map:brickTex,color:0xffffff,roughness:0.95}));
+  const brickB=W.lm("rbB",()=>new THREE.MeshStandardMaterial({map:concTex,color:0x8a7c6c,roughness:0.95}));
+  const brickC=W.lm("rbC",()=>new THREE.MeshStandardMaterial({map:concDarkTex,color:0xffffff,roughness:0.95}));
+  const plaster=W.lm("rbD",()=>new THREE.MeshStandardMaterial({map:concTex,color:0xb8a890,roughness:0.95}));
   // ===== 中央大街（x∈[-4,4]）：路缘 + 隔离墩 + 街车 =====
   W.box(-4.6,0,1.4,0.12,96,matConc,{y:0.06,noCover:1,collide:false});
   W.box(4.6,0,1.4,0.12,96,matConc,{y:0.06,noCover:1,collide:false});
@@ -1796,10 +1855,10 @@ rustout:{
 dustout:{
  name:"灰沙哨站",en:"DUST OUTPOST",linkD:20,tag:"90x90 · 开阔",
  sw:["#d8c49a","#b08050","#6b5a40"],
- fogC:0x8a7a5c,fogD:0.007,bgC:0x9a8a68,exp:1.18,tint:0xd8c49a,
- sunC:0xffd9a8,sunI:3.1,sunP:[60,14,-30],
- hS:0xd8cba8,hG:0x6b5a40,hI:0.75,aC:0x6b5f49,aI:0.5,
- skTC:0x3a4664,skMC:0xb08050,skHC:0xe8c184,skSC:0xfff0cc,sd:[60,14,-30],
+ fogC:0xc2d2e0,fogD:0.0058,bgC:0xd0dce8,exp:1.36,tint:0xf0e8d4,
+ sunC:0xfff4e0,sunI:3.4,sunP:[60,56,-30],
+ hS:0xcfe0ee,hG:0x8a7a5c,hI:1.08,aC:0x9aa2ac,aI:0.9,
+ skTC:0x3a6ad4,skMC:0x8ec3ef,skHC:0xe8f2fc,skSC:0xffffff,sd:[60,56,-30],
  spawns:{ally:[[-44,-15],[-45,-9],[-43,-3],[-45,3],[-43,9],[-44,15]],
          axis:[[44,-15],[45,-9],[43,-3],[45,3],[43,9],[44,15]]},
  wps:(function(){
@@ -1832,10 +1891,10 @@ dustout:{
 shipment:{
  name:"运输枢纽",en:"SHIPMENT",linkD:18,tag:"40x40 · 快节奏",
  sw:["#8a4a34","#2f5a6e","#4a4438"],
- fogC:0x8a7a5c,fogD:0.006,bgC:0x99896a,exp:1.18,tint:0xdccbaa,
- sunC:0xffd9a8,sunI:2.9,sunP:[40,26,-20],
- hS:0xcaba98,hG:0x5c5040,hI:0.7,aC:0x594e3c,aI:0.55,
- skTC:0x3f4c72,skMC:0xb08050,skHC:0xe8c184,skSC:0xfff0cc,sd:[40,26,-20],
+ fogC:0xb0c2d4,fogD:0.0048,bgC:0xc0d0e0,exp:1.32,tint:0xf0f0ec,
+ sunC:0xfff2dc,sunI:3.1,sunP:[40,52,-20],
+ hS:0xbccfe2,hG:0x5c5040,hI:1.05,aC:0x8a9098,aI:0.9,
+ skTC:0x3563cc,skMC:0x84b8ea,skHC:0xe2eefc,skSC:0xffffff,sd:[40,52,-20],
  spawns:{ally:[[-13,3],[-13,-3],[-15,15],[-15,-15],[-8,8],[-8,-8]],
          axis:[[13,-3],[13,3],[15,-15],[15,15],[8,-8],[8,8]]},
  wps:[[0,10],[0,-10],[10,0],[-10,0],[12.5,0],[-12.5,0],[0,12.5],[0,-12.5],
@@ -1869,10 +1928,10 @@ shipment:{
 crash:{
  name:"坠机之地",en:"CRASH",linkD:26,tag:"70x70 · 巷战",
  sw:["#a05a32","#d89a68","#4a4038"],
- fogC:0x6e4a30,fogD:0.0058,bgC:0x7a4e30,exp:1.16,tint:0xe0bd94,
- sunC:0xff9440,sunI:2.7,sunP:[46,12,-38],
- hS:0xd89a68,hG:0x5a4028,hI:0.66,aC:0x6b4a30,aI:0.5,
- skTC:0x2e3c66,skMC:0xa05a32,skHC:0xf0a050,skSC:0xffddaa,sd:[46,12,-38],
+ fogC:0xc8d4de,fogD:0.0046,bgC:0xd4dfe8,exp:1.34,tint:0xf2e8d8,
+ sunC:0xfff2dc,sunI:3.3,sunP:[46,54,-38],
+ hS:0xc4d6e8,hG:0x8a7050,hI:1.06,aC:0x98a0aa,aI:0.9,
+ skTC:0x2e5cc8,skMC:0x7ab0e8,skHC:0xe2eefc,skSC:0xffffff,sd:[46,54,-38],
  spawns:{ally:[[-24,30],[-12,30],[0,31],[12,30],[24,30],[-18,29]],
          axis:[[-24,-30],[-12,-30],[0,-31],[12,-30],[24,-30],[-18,-29]]},
  wps:[[-30,12],[-22,12],[-14,12],[-6,12],[6,12],[14,12],[22,12],[30,12],
@@ -1936,10 +1995,10 @@ crash:{
 },dome:{
  name:"雷达站",en:"DOME",linkD:20,tag:"50x50 · 紧凑",
  sw:["#cabb98","#777d82","#6b5a40"],
- fogC:0xcabb98,fogD:0.0052,bgC:0xd6cbaa,exp:1.24,tint:0xeadfc0,
- sunC:0xfff2d0,sunI:3.3,sunP:[26,40,18],
- hS:0xe8dcc0,hG:0x77684c,hI:0.8,aC:0x7a6c50,aI:0.45,
- skTC:0x3a5aa8,skMC:0xcabb98,skHC:0xf4e6bc,skSC:0xffffff,sd:[26,40,18],
+ fogC:0xc8d8e8,fogD:0.0042,bgC:0xd8e6f2,exp:1.38,tint:0xf4f0e4,
+ sunC:0xfff8ec,sunI:3.5,sunP:[26,52,18],
+ hS:0xd4e2f0,hG:0x77684c,hI:1.1,aC:0x9aa4b0,aI:0.92,
+ skTC:0x3a6ad4,skMC:0x9cc8f0,skHC:0xeef6ff,skSC:0xffffff,sd:[26,52,18],
  spawns:{ally:[[-20,8],[-21,3],[-20,-3],[-19,13],[-19,-13],[-21,0]],
          axis:[[20,-8],[21,-3],[20,3],[19,-13],[19,13],[21,0]]},
  wps:[[0,7],[0,-7],[7,0],[-7,0],[0,13],[0,-13],[13,0],[-13,0],
@@ -1977,10 +2036,10 @@ crash:{
 crossfire:{
  name:"交叉之地",en:"CROSSFIRE",linkD:20,tag:"80x80 · 大道",
  sw:["#9a8a68","#6a6048","#3f4438"],
- fogC:0x9a8a68,fogD:0.005,bgC:0xa89878,exp:1.2,tint:0xe6dab8,
- sunC:0xffe0b0,sunI:2.9,sunP:[30,30,-24],
- hS:0xd8cba8,hG:0x6b5f49,hI:0.72,aC:0x6b5f49,aI:0.5,
- skTC:0x40518c,skMC:0xb09058,skHC:0xf0cf96,skSC:0xfff0cc,sd:[30,30,-24],
+ fogC:0xb6c8da,fogD:0.004,bgC:0xc4d4e2,exp:1.32,tint:0xf0ede2,
+ sunC:0xfff2dc,sunI:3.2,sunP:[30,50,-24],
+ hS:0xc0d2e4,hG:0x6b5f49,hI:1.05,aC:0x8a929c,aI:0.9,
+ skTC:0x3563cc,skMC:0x84b8ea,skHC:0xe2eefc,skSC:0xffffff,sd:[30,50,-24],
  spawns:{ally:[[-36,8],[-37,0],[-36,-8],[-35,14],[-35,-14],[-38,4]],
          axis:[[36,-8],[37,0],[36,8],[35,-14],[35,14],[38,-4]]},
  wps:[[0,-34],[0,-26],[-5,-22],[5,-22],[0,-16],[0,-8],[-5,0],[5,0],[0,8],[0,16],[-5,22],[5,22],[0,26],[0,34],
@@ -2023,10 +2082,10 @@ crossfire:{
 nuketown:{
  name:"核弹小镇",en:"NUKETOWN",linkD:15,tag:"45x45 · 极快",
  sw:["#cabb98","#8a9a6a","#b0a080"],
- fogC:0xcabb98,fogD:0.006,bgC:0xd6cbaa,exp:1.24,tint:0xeadfc0,
- sunC:0xfff2d0,sunI:3.2,sunP:[20,34,16],
- hS:0xe8dcc0,hG:0x77704c,hI:0.78,aC:0x7a704f,aI:0.48,
- skTC:0x3a5aa8,skMC:0xcabb98,skHC:0xf4e6bc,skSC:0xffffff,sd:[20,34,16],
+ fogC:0xc4d4e2,fogD:0.0048,bgC:0xd2dfe8,exp:1.38,tint:0xf2ecd8,
+ sunC:0xfff4e0,sunI:3.4,sunP:[20,46,16],
+ hS:0xcfe0ee,hG:0x77704c,hI:1.08,aC:0x98a098,aI:0.9,
+ skTC:0x3a6ad4,skMC:0x8ec3ef,skHC:0xeef6ff,skSC:0xffffff,sd:[20,46,16],
  spawns:{ally:[[-19,6],[-20,0],[-19,-6],[-17,11],[-17,-11],[-21,3]],
          axis:[[19,-6],[20,0],[19,6],[17,-11],[17,11],[21,-3]]},
  wps:[[-6,0],[6,0],[-12,0],[12,0],[0,8],[0,-8],[0,15],[0,-15],
@@ -2075,10 +2134,10 @@ nuketown:{
 mansion:{
  name:"豪宅",en:"MANSION",linkD:22,tag:"75x75 · 花园",
  sw:["#5a6a4a","#8a9a6a","#3f4438"],
- fogC:0x8a9678,fogD:0.0052,bgC:0x94a084,exp:1.18,tint:0xd4d8bc,
- sunC:0xffeccf,sunI:2.8,sunP:[28,30,20],
- hS:0xccd4b0,hG:0x4a5238,hI:0.66,aC:0x50583c,aI:0.52,
- skTC:0x3a5aa8,skMC:0x93a07c,skHC:0xe8e2bc,skSC:0xfff4d8,sd:[28,30,20],
+ fogC:0xb8ccb8,fogD:0.0042,bgC:0xc6d8c8,exp:1.34,tint:0xe8f0dc,
+ sunC:0xfff6e2,sunI:3.1,sunP:[28,48,20],
+ hS:0xc8dcc4,hG:0x54684a,hI:1.05,aC:0x8a988c,aI:0.9,
+ skTC:0x3563cc,skMC:0x9cc4e8,skHC:0xe6f2ea,skSC:0xffffff,sd:[28,48,20],
  spawns:{ally:[[-33,8],[-34,0],[-33,-8],[-32,14],[-32,-14],[-35,3]],
          axis:[[33,-8],[34,0],[33,8],[32,-14],[32,14],[35,-3]]},
  wps:[[0,9],[0,20],[-8,14],[8,14],[0,-8],[-4,0],[4,0],[0,-3.5],
@@ -2493,7 +2552,7 @@ build(){
 },
 applyVol(){
   if(!this.built||!this.bus||!AudioSys.AC)return;
-  const tgt=this.on?(this.mode==="menu"?SET.musvol*0.7:SET.musvol*0.26):0;
+  const tgt=this.on?(this.mode==="menu"?SET.musvol*0.7:SET.musvol*0.6):0;
   this.bus.gain.setTargetAtTime(tgt,AudioSys.AC.currentTime,this.on?0.6:0.45);
 },
 start(mode){
@@ -2630,9 +2689,13 @@ schedule(){
         if(b%4===0)this.tone({t,f:rt,f1:rt*0.75,d:e*3,g:0.09});
       }
     }else{
-      if(b%8===0){this.tone({t,f:50,f1:32,d:e*3.5,g:0.17});this.tone({t,w:"sawtooth",f:55,d:e*7,g:0.07,lp:200,lp1:90});}
-      if(b%8===4)this.nz({t,f:1600,q:1,g:0.03,d:0.07});
-      if(b%4===2)this.nz({t,f:6500,q:1.4,g:0.014,d:0.025,r:1.3});
+      // 对局战斗层：太鼓底鼓+军鼓+闭镲+根音低音推进，低响度不压枪声脚步
+      const rt=RT[bar%4];
+      if(b%8===0){this.taiko(t,0.34);this.tone({t,f:50,f1:32,d:e*3.5,g:0.18});this.tone({t,w:"sawtooth",f:55,d:e*7,g:0.07,lp:200,lp1:90});}
+      if(b%8===4){this.taiko(t,0.2);this.nz({t,f:1800,q:0.9,g:0.05,d:0.09});}
+      if(b%2===1)this.nz({t,f:6500,q:1.4,g:0.02,d:0.025,r:1.3});
+      if(b%2===0)this.tone({t,w:"sawtooth",f:rt,d:e*0.9,g:0.1,lp:300,lp1:120});
+      if(b%32===30)this.tone({t,w:"triangle",f:rt,f1:rt*2,d:e*2,g:0.05});
     }
     this.beat++;this.nextT+=e;
   }
@@ -3601,7 +3664,7 @@ const HUD={
   vig:$("vig"),dmgcv:$("dmgcv"),objline:$("objline"),deadov:$("deadov"),
   cmini:$("cmini").getContext("2d"),
   hp:$("hp"),hpnum:$("hpnum"),hpfill:$("hpfill"),ccmp:$("cmp").getContext("2d"),
-  eqf:$("eqf"),eqfn:$("eqfn"),eql:$("eql"),eqln:$("eqln"),fwEl:$("fw"),wmode:$("wmode"),wsw:$("wsw"),chc:$("chud").getContext("2d"),
+  eqf:$("eqf"),eqfn:$("eqfn"),eql:$("eql"),eqln:$("eqln"),fwEl:$("fw"),wmode:$("wmode"),wsw:$("wsw"),
   lastAM:"",lastAR:"",lastHP:100,hmTO:0,mkChain:0,mkLast:-9,prevAlive:-1,lastNF:-1,lastNL:-1,lastFW:-1,lastWM:"",lastWS:null,
   hitmark(head){
     this.hm.classList.toggle("hs",!!head);
@@ -3704,38 +3767,7 @@ const HUD={
     this.hudAcc=(this.hudAcc||0)+dt;
     if(this.hudAcc<0.0333)return;
     this.hudAcc=0;
-    const cu=this.chc,CSZ=160,CCE=CSZ/2;
-    cu.clearRect(0,0,CSZ,CSZ);
-    if(Game.mode!=="menu"&&!P.dead&&Weapon.adsT<0.45){
-      const stc=Weapon.ws(),ratio=clamp(ammo.mag/stc.mag,0,1);
-      const swK=Weapon.swT>0?Math.sin((1-Weapon.swT)*Math.PI):0;
-      const scl=1-0.04*Math.max(swK,Weapon.insK||0);
-      cu.save();
-      cu.translate(CCE,CCE);cu.scale(scl,scl);
-      // 弹药环（堡垒之夜式）：以准星为圆心的右下四分之一圆 + 径向子弹条纹，按余量点亮；数字交给右下角弹药面板，环心不放字
-      const A0=0,SWE=Math.PI/2,NT=12;
-      const low=ratio<0.15,amber=ratio<0.3;
-      const lit=Weapon.reloading?clamp(Weapon.rt/R_T,0,1)*NT:ratio*NT;
-      const tick=(i,al,col)=>{
-        const a=A0+(i/(NT-1))*SWE,ca=Math.cos(a),sa=Math.sin(a);
-        cu.lineCap="butt";
-        cu.strokeStyle=col;cu.globalAlpha=al;
-        cu.lineWidth=2.4;
-        cu.beginPath();cu.moveTo(ca*29,sa*29);cu.lineTo(ca*38,sa*38);cu.stroke();
-        cu.lineWidth=1;
-        cu.globalAlpha=al*0.85;
-        cu.beginPath();cu.moveTo(ca*32.3,sa*32.3);cu.lineTo(ca*35.8,sa*35.8);cu.stroke();
-      };
-      for(let i=0;i<NT;i++)tick(i,0.15,"#e8e4d8");
-      const acol=low?"#ff5040":amber?"#ff9e2c":"#e8e4d8";
-      const ablink=low?0.55+0.45*Math.abs(Math.sin(T*8)):1;
-      for(let i=0;i<NT;i++){
-        const f=clamp(lit-i,0,1);
-        if(f>0)tick(i,ablink*(0.3+0.7*f),acol);
-      }
-      cu.globalAlpha=1;
-      cu.restore();
-    }    const rl=Weapon.reloading;
+    const rl=Weapon.reloading;
     $("rld").style.opacity=rl?1:0;
     if(rl)$("rldf").style.transform="scaleX("+clamp(Weapon.rt/R_T,0,1)+")";
     this.vig.style.opacity=Math.pow(1-P.hp/100,1.35)*0.9;
@@ -4049,6 +4081,8 @@ init(){
   wireSlider("s-fov","v-fov","fov",1,v=>v.toFixed(0));
   wireSlider("s-vol","v-vol","vol",100,v=>(v*100|0)+"%");
   wireSlider("s-mus","v-mus","musvol",100,v=>(v*100|0)+"%");
+  wireSlider("s-bri","v-bri","bright",100,v=>(v*100|0)+"%");
+  $("s-bri").addEventListener("input",()=>{if(World.M)renderer.toneMappingExposure=World.M.exp*(SET.bright||1);});
   $("s-mus").addEventListener("input",()=>{Music.applyVol();});
   $("q-shadow").addEventListener("click",()=>{
     SET.shadow=!SET.shadow;applySettings(true);saveSet();this.refreshUI();AudioSys.ui();
@@ -4089,6 +4123,7 @@ refreshUI(){
   $("s-fov").value=SET.fov;$("v-fov").textContent=SET.fov.toFixed(0);
   $("s-vol").value=SET.vol*100;$("v-vol").textContent=(SET.vol*100|0)+"%";
   $("s-mus").value=SET.musvol*100;$("v-mus").textContent=(SET.musvol*100|0)+"%";
+  $("s-bri").value=(SET.bright||1)*100;$("v-bri").textContent=((SET.bright||1)*100|0)+"%";
   $("q-shadow").textContent=SET.shadow?"开":"关";
   $("q-part").textContent=SET.partHi?"高":"低";
   $("q-lkfb").textContent=SET.lockFallback?"开":"关";
