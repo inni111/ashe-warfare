@@ -3690,13 +3690,13 @@ const HUD={
     this.hudAcc=0;
     const cu=this.chc,CSZ=160,CCE=CSZ/2;
     cu.clearRect(0,0,CSZ,CSZ);
-    if(Game.mode!=="menu"&&!P.dead){
+    if(Game.mode!=="menu"&&!P.dead&&Weapon.adsT<0.45){
       const stc=Weapon.ws(),ratio=clamp(ammo.mag/stc.mag,0,1);
       const swK=Weapon.swT>0?Math.sin((1-Weapon.swT)*Math.PI):0;
       const scl=1-0.04*Math.max(swK,Weapon.insK||0);
       cu.save();
-      cu.translate(CCE+46,CCE+46);cu.scale(scl,scl);
-      // 弹药环（堡垒之夜式）：四分之一圆弧 + 径向子弹条纹，按余量点亮
+      cu.translate(CCE,CCE);cu.scale(scl,scl);
+      // 弹药环（堡垒之夜式）：以准星为圆心，右上四分之一圆 + 径向子弹条纹，按余量点亮
       const A0=-Math.PI/2,SWE=Math.PI/2,NT=12;
       const low=ratio<0.15,amber=ratio<0.3;
       const lit=Weapon.reloading?clamp(Weapon.rt/R_T,0,1)*NT:ratio*NT;
@@ -3705,10 +3705,10 @@ const HUD={
         cu.lineCap="butt";
         cu.strokeStyle=col;cu.globalAlpha=al;
         cu.lineWidth=2.4;
-        cu.beginPath();cu.moveTo(ca*25.5,sa*25.5);cu.lineTo(ca*34.5,sa*34.5);cu.stroke();
+        cu.beginPath();cu.moveTo(ca*29,sa*29);cu.lineTo(ca*38,sa*38);cu.stroke();
         cu.lineWidth=1;
         cu.globalAlpha=al*0.85;
-        cu.beginPath();cu.moveTo(ca*26.8,sa*26.8);cu.lineTo(ca*33.2,sa*33.2);cu.stroke();
+        cu.beginPath();cu.moveTo(ca*32.3,sa*32.3);cu.lineTo(ca*35.8,sa*35.8);cu.stroke();
       };
       for(let i=0;i<NT;i++)tick(i,0.15,"#e8e4d8");
       const acol=low?"#ff5040":amber?"#ff9e2c":"#e8e4d8";
