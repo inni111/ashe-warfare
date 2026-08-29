@@ -974,18 +974,30 @@ function buildPrimary(cw){
   clearGroup(pistolRoot);
   const gmWood2=new THREE.MeshStandardMaterial({color:0x5a4632,roughness:0.65});
   const gmDark=new THREE.MeshStandardMaterial({color:0x0c0c0c,roughness:0.5});
+  const gmBlued=new THREE.MeshStandardMaterial({color:0x17181d,roughness:0.34,metalness:0.8});
+  const gmBlued2=new THREE.MeshStandardMaterial({color:0x101115,roughness:0.42,metalness:0.75});
   const slide=new THREE.Group();pistolRoot.add(slide);pistolSlide=slide;
-  gpart(slide,B(0.042,0.07,0.19),gmMetal,0,0.02,-0.03);
-  gpart(slide,B(0.042,0.02,0.034),gmMetal,0,0.043,-0.115,Math.PI/4);
+  gpart(slide,B(0.042,0.07,0.19),gmBlued,0,0.02,-0.03);
+  gpart(slide,B(0.018,0.005,0.155),gmBlued2,0,0.0575,-0.032);
+  gpart(slide,B(0.007,0.007,0.13),gmBlued,0.0183,0.0505,-0.045,0,0,Math.PI/4);
+  gpart(slide,B(0.007,0.007,0.13),gmBlued,-0.0183,0.0505,-0.045,0,0,-Math.PI/4);
+  gpart(slide,B(0.042,0.02,0.034),gmBlued,0,0.043,-0.115,Math.PI/4);
+  gpart(slide,B(0.006,0.026,0.048),gmDark,0.0195,0.03,-0.052);
   for(let i=0;i<5;i++)gpart(slide,B(0.046,0.058,0.003),gmGrip,0,0.02,0.026+i*0.008);
   gpart(slide,B(0.006,0.012,0.01),gmMetal,0.0095,0.061,0.049);
   gpart(slide,B(0.006,0.012,0.01),gmMetal,-0.0095,0.061,0.049);
   gpart(slide,B(0.005,0.012,0.006),gmMetal,0,0.061,-0.119);
-  const brl=gpart(pistolRoot,new THREE.CylinderGeometry(0.008,0.008,0.026,10),gmMetal,0,-0.001,-0.134,Math.PI/2);
+  gpart(pistolRoot,new THREE.CylinderGeometry(0.0115,0.0115,0.012,12),gmBlued2,0,-0.001,-0.1285,Math.PI/2);
+  gpart(pistolRoot,new THREE.CylinderGeometry(0.008,0.008,0.026,10),gmMetal,0,-0.001,-0.134,Math.PI/2);
   const bore=new THREE.Mesh(new THREE.CircleGeometry(0.0065,10),gmDark);
   bore.position.set(0,-0.001,-0.1472);bore.rotation.y=Math.PI;pistolRoot.add(bore);
   gpart(pistolRoot,B(0.036,0.05,0.145),gmPoly,0,-0.045,-0.008);
+  gpart(pistolRoot,B(0.004,0.008,0.03),gmMetal,-0.0205,-0.012,-0.05);
+  gpart(pistolRoot,B(0.004,0.006,0.012),gmMetal,-0.0205,-0.009,-0.03);
+  gpart(pistolRoot,B(0.004,0.006,0.015),gmMetal,-0.0205,0.004,0.058);
+  gpart(pistolRoot,new THREE.CylinderGeometry(0.0045,0.0045,0.005,8),gmMetal,-0.019,-0.03,-0.056,0,0,Math.PI/2);
   gpart(pistolRoot,B(0.007,0.02,0.005),gmMetal,0,-0.05,-0.047);
+  gpart(pistolRoot,B(0.013,0.018,0.003),gmBlued2,0,-0.05,-0.0505);
   gpart(pistolRoot,B(0.03,0.007,0.058),gmMetal,0,-0.076,-0.046);
   gpart(pistolRoot,B(0.03,0.03,0.007),gmMetal,0,-0.062,-0.073);
   gpart(pistolRoot,B(0.03,0.03,0.007),gmMetal,0,-0.062,-0.02);
@@ -994,12 +1006,16 @@ function buildPrimary(cw){
   hring.position.set(0,0.068,0.079);hring.rotation.y=Math.PI/2;pistolRoot.add(hring);
   const grip=new THREE.Group();grip.position.set(0,-0.062,0.028);grip.rotation.x=0.31;pistolRoot.add(grip);
   gpart(grip,B(0.038,0.13,0.048),gmPoly,0,-0.065,0);
+  gpart(grip,B(0.042,0.007,0.026),gmPoly,0,-0.002,0.02,-0.5);
   gpart(grip,B(0.006,0.1,0.04),gmWood2,0.0205,-0.062,0.002);
   gpart(grip,B(0.006,0.1,0.04),gmWood2,-0.0205,-0.062,0.002);
   const scr=new THREE.CylinderGeometry(0.0013,0.0013,0.003,6);
+  const dia=new THREE.BoxGeometry(0.001,0.011,0.011);
   for(const sy of[-0.03,-0.062,-0.094]){
-    gpart(grip,scr,gmDark,0.0235,sy,0.002,0,0,Math.PI/2);
-    gpart(grip,scr,gmDark,-0.0235,sy,0.002,0,0,Math.PI/2);
+    for(const sx of[0.0235,-0.0235]){
+      gpart(grip,scr,gmDark,sx,sy,0.002,0,0,Math.PI/2);
+      gpart(grip,dia,gmDark,sx+Math.sign(sx)*0.0008,sy,0.002,0,0,Math.PI/4);
+    }
   }
   gpart(grip,B(0.042,0.012,0.05),gmMetal,0,-0.136,0.004);
   pistolMag=gpart(pistolRoot,B(0.03,0.095,0.04),gmMetal,0,-0.104,0.042,0.31);
@@ -3696,8 +3712,8 @@ const HUD={
       const scl=1-0.04*Math.max(swK,Weapon.insK||0);
       cu.save();
       cu.translate(CCE,CCE);cu.scale(scl,scl);
-      // 弹药环（堡垒之夜式）：以准星为圆心，右上四分之一圆 + 径向子弹条纹，按余量点亮
-      const A0=-Math.PI/2,SWE=Math.PI/2,NT=12;
+      // 弹药环（堡垒之夜式）：以准星为圆心的右下四分之一圆 + 径向子弹条纹，按余量点亮；数字交给右下角弹药面板，环心不放字
+      const A0=0,SWE=Math.PI/2,NT=12;
       const low=ratio<0.15,amber=ratio<0.3;
       const lit=Weapon.reloading?clamp(Weapon.rt/R_T,0,1)*NT:ratio*NT;
       const tick=(i,al,col)=>{
@@ -3718,19 +3734,6 @@ const HUD={
         if(f>0)tick(i,ablink*(0.3+0.7*f),acol);
       }
       cu.globalAlpha=1;
-      if(Weapon.reloading){
-        cu.fillStyle="#ff9e2c";
-        cu.font="700 9px Consolas";cu.textAlign="center";cu.textBaseline="middle";
-        const rt="RELOADING",rsp=7,rw=(rt.length-1)*rsp;
-        for(let i=0;i<rt.length;i++)cu.fillText(rt[i],-rw/2+i*rsp,1);
-      }else{
-        cu.fillStyle="#e8e4d8";
-        cu.font="700 20px Consolas";cu.textAlign="center";cu.textBaseline="middle";
-        cu.fillText(String(ammo.mag),0,-3);
-        cu.fillStyle="rgba(232,228,216,.55)";
-        cu.font="600 10px Consolas";
-        cu.fillText(String(ammo.res),0,14);
-      }
       cu.restore();
     }    const rl=Weapon.reloading;
     $("rld").style.opacity=rl?1:0;
